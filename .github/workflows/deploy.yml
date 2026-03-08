@@ -1,0 +1,49 @@
+name: Deploy VPS
+
+on:
+  push:
+    branches:
+      - main # Change to 'master' if that is your primary branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # This action connects to your VPS over SSH and runs the update commands
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22 # Default SSH port, change if your VPS uses a different one
+          script: |
+            # 1. Update this path to where your project lives on the VPS
+            cd /var/www/freeutils
+
+            # 2. Pull the newest code
+            git pull origin main
+
+            # ==========================================
+            # FRONTEND (React / Vite)
+            # ==========================================
+            # 3. Install frontend dependencies
+            npm install
+            
+            # 4. Build the frontend for production
+            npm run build
+            
+            # ==========================================
+            # BACKEND (Express / Node.js)
+            # ==========================================
+            cd backend
+            
+            # 5. Install backend dependencies
+            npm install
+            
+            # 6. Restart the backend process using PM2
+            # Note: PM2 is highly recommended to keep Node.js apps alive on a VPS.
+            # If you haven't started it yet, it will fall back to starting it for the first time.
+            # (To install PM2 on your VPS if you haven't: npm install -g pm2)
+            pm2 restart videoframe-backend || pm2 start server.js --name "videoframe-backend"
