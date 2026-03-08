@@ -1,0 +1,7 @@
+
+C:\Users\Hp\Desktop\VideoFrame\src\App.tsx
+  1:10  error  'useState' is defined but never used   @typescript-eslint/no-unused-vars
+  1:20  error  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 2 problems (2 errors, 0 warnings)
+

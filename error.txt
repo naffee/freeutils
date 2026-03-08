@@ -1,0 +1,2 @@
+src/App.tsx(2,44): error TS2300: Duplicate identifier 'Crop'.
+src/App.tsx(44,335): error TS2300: Duplicate identifier 'Crop'.

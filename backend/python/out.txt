@@ -1,0 +1,29 @@
+ffmpeg version 2025-10-21-git-535d4047d3-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-liboapv --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-openal --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint --enable-whisper
+  libavutil      60. 13.100 / 60. 13.100
+  libavcodec     62. 16.100 / 62. 16.100
+  libavformat    62.  6.101 / 62.  6.101
+  libavdevice    62.  2.100 / 62.  2.100
+  libavfilter    11.  9.100 / 11.  9.100
+  libswscale      9.  3.100 /  9.  3.100
+  libswresample   6.  2.100 /  6.  2.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'test.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.6.101
+  Duration: 00:00:01.00, start: 0.000000, bitrate: 18 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 128x128 [SAR 1:1 DAR 1:1], 8 kb/s, 25 fps, 25 tbr, 12800 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc62.16.100 libx264
+[Parsed_subtitles_0 @ 0000026b098d4700] libass API version: 0x1704000
+[Parsed_subtitles_0 @ 0000026b098d4700] libass source: commit: 0.17.4-15-g534a5f8299c5ab3c2782856fcb843bfea47b7afc
+[Parsed_subtitles_0 @ 0000026b098d4700] Shaper: FriBidi 1.0.16 (SIMPLE) HarfBuzz-ng 12.1.0 (COMPLEX)
+[Parsed_subtitles_0 @ 0000026b098d4700] Unable to open test.srt
+[AVFilterGraph @ 0000026b098d4640] Error initializing filters
+Error opening output file test_out.mp4.
+Error opening output files: Invalid data found when processing input
