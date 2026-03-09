@@ -23,7 +23,9 @@ jobs:
             cd /var/www/freeutils
 
             # 2. Pull the newest code
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
+            git clean -fd
 
             # ==========================================
             # FRONTEND (React / Vite)
