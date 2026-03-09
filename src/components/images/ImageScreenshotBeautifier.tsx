@@ -155,6 +155,10 @@ export function ImageScreenshotBeautifier() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Screenshot Beautifier</h2>
+                <p>Enhance your raw screenshots with beautiful browser mockups, custom backgrounds, and aesthetic shadows.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop a screenshot to Beautify it" />
             </div>
         );
@@ -162,6 +166,10 @@ export function ImageScreenshotBeautifier() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Screenshot Beautifier</h2>
+                <p>Enhance your raw screenshots with beautiful browser mockups, custom backgrounds, and aesthetic shadows.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 

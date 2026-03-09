@@ -66,6 +66,10 @@ export function JwtDecoder() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>JWT Decoder</h2>
+                <p>Decode, verify, and generate JSON Web Tokens (JWT) securely on your local device.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

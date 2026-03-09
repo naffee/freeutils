@@ -291,6 +291,10 @@ export function ImageStylizer() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Image Stylizer (GPU)</h2>
+                <p>Apply stunning artistic styles and effects to your photos using blazing-fast GPU processing.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to Cartoonize it" />
             </div>
         );
@@ -298,6 +302,10 @@ export function ImageStylizer() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Image Stylizer (GPU)</h2>
+                <p>Apply stunning artistic styles and effects to your photos using blazing-fast GPU processing.</p>
+            </div>
             {/* Hidden actual drawing canvas */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
 

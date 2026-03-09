@@ -85,6 +85,10 @@ export function ImageRotator() {
     if (!imageUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Rotate & Flip Image</h2>
+                <p>Fix incorrect image orientation instantly. Rotate clockwise, counter-clockwise, or mirror your photos.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drag & Drop an image to rotate/flip" />
             </div>
         );
@@ -92,6 +96,10 @@ export function ImageRotator() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Rotate & Flip Image</h2>
+                <p>Fix incorrect image orientation instantly. Rotate clockwise, counter-clockwise, or mirror your photos.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '100%', alignItems: 'center' }}>
 

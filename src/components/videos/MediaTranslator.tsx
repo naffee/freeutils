@@ -179,6 +179,10 @@ export function MediaTranslator() {
 
     return (
         <div className="tool-container">
+            <div className="seo-writeup">
+                <h2>Media Translator</h2>
+                <p>Translate your video's audio into different languages effortlessly. Break language barriers with our fast online media translator.</p>
+            </div>
             <h2><Globe className="inline-icon" /> Video / Audio Translator</h2>
             <p className="tool-description">
                 Transcribe any video or audio file, translate it into your target language, and download an SRT subtitle file or burn the subtitles directly into the video!

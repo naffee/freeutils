@@ -174,6 +174,10 @@ export function ImageColorExtractor() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Color Palette Extractor</h2>
+                <p>Extract dominant color palettes and accurate hex codes from any photograph or image.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to extract its color palette" />
             </div>
         );
@@ -181,6 +185,10 @@ export function ImageColorExtractor() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Color Palette Extractor</h2>
+                <p>Extract dominant color palettes and accurate hex codes from any photograph or image.</p>
+            </div>
             {/* Hidden canvas for offscreen processing */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
 

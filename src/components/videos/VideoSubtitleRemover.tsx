@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Download, AlertCircle, Server, Eraser, FileVideo } from 'lucide-react';
 import { Dropzone } from '../shared/Dropzone.tsx';
 
@@ -52,6 +52,10 @@ export function VideoSubtitleRemover() {
 
     return (
         <div className="tool-container">
+            <div className="seo-writeup">
+                <h2>Remove Subtitles from Video</h2>
+                <p>Cleanly erase hardcoded subtitles and text from your videos. Recover your original clean footage easily.</p>
+            </div>
             <div className="tool-header">
                 <Eraser size={24} className="text-pink-500" />
                 <h2>Remove Hardcoded Subtitles</h2>

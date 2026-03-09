@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, type MouseEvent as ReactMouseEvent } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 
 import { Loader2, Download, RotateCcw, Video, Layers, Trash2, Move, Copy } from 'lucide-react';
@@ -234,6 +235,10 @@ export function VideoWatermarkAdder() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Add Watermark to Video</h2>
+                <p>Protect your original content by adding custom logos or text watermarks. Stamp your brand on your videos securely.</p>
+            </div>
                 <Dropzone onFileSelect={handleVideoSelect} accept="video/*" title="Drop a Base Video" />
             </div>
         );
@@ -404,7 +409,7 @@ export function VideoWatermarkAdder() {
                         {/* Core Actions */}
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`watermarked_${videoFile?.name || 'video.mp4'}`}
                                     className="btn-primary"
@@ -412,6 +417,15 @@ export function VideoWatermarkAdder() {
                                 >
                                     <Download size={16} /> Save Final Video
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={videoFile?.name || 'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing || watermarks.length === 0} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Rendering Filter ({progress}%)...</> : <><Layers size={16} /> Bake {watermarks.length} Watermark(s)</>}

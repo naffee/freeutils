@@ -1,3 +1,4 @@
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { useState, useRef, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
@@ -146,6 +147,10 @@ export function VideoMerger() {
     if (videoFiles.length === 0) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Merge Videos</h2>
+                <p>Combine multiple video clips into one continuous movie. A simple, fast way to join your favorite moments together.</p>
+            </div>
                 <div style={{ padding: '3rem', border: '2px dashed #cbd5e1', borderRadius: '16px', textAlign: 'center', background: '#f8fafc', cursor: 'pointer', maxWidth: '600px', margin: '0 auto' }} onClick={() => fileInputRef.current?.click()}>
                     <Merge size={48} color="#94a3b8" style={{ margin: '0 auto', marginBottom: '1rem' }} />
                     <h3 style={{ margin: 0, color: '#0f172a', marginBottom: '0.5rem' }}>Drop videos to Merge</h3>
@@ -158,6 +163,10 @@ export function VideoMerger() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Merge Videos</h2>
+                <p>Combine multiple video clips into one continuous movie. A simple, fast way to join your favorite moments together.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'flex-start' }}>
 
@@ -258,14 +267,25 @@ export function VideoMerger() {
                         {/* Core Actions */}
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
-                                    href={outputUrl}
+                                <>
+<a
+    href={outputUrl}
                                     download={`merged_video_${Date.now()}.mp4`}
                                     className="btn-primary"
                                     style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}
                                 >
                                     <Download size={16} /> Save Merged Video
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={'processed_file'} 
+                                    fileType="video"
+/>
+</>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing || videoFiles.length < 2} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Linking ({progress}%)...</> : <><Merge size={16} /> Merge Videos</>}

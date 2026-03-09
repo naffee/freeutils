@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { Download } from 'lucide-react';
@@ -126,6 +127,10 @@ export function ImageCropper() {
     if (!imageUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Crop Image</h2>
+                <p>Crop your photos to specific aspect ratios perfectly suited for all social media platforms.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drag & Drop an image to crop" />
             </div>
         );
@@ -133,6 +138,10 @@ export function ImageCropper() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Crop Image</h2>
+                <p>Crop your photos to specific aspect ratios perfectly suited for all social media platforms.</p>
+            </div>
             <div className="editor-container">
                 {!outputUrl ? (
                     <>
@@ -178,16 +187,31 @@ export function ImageCropper() {
                                 {isProcessing ? loadingMsg : 'Crop Image'}
                             </button>
                             <button className="btn-secondary" onClick={() => setImageUrl(null)}>Cancel</button>
-                        </div>
+                        
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={'processed_file'} 
+                                    fileType="image" 
+                                />
                     </>
                 ) : (
                     <div className="result-container">
                         <h3>Cropped Result</h3>
                         <img src={outputUrl} alt="Processed" className="target-image" style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)' }} />
                         <div className="actions">
-                            <a href={outputUrl} download={`cropped_${Date.now()}.png`} className="btn-primary" style={{ textDecoration: 'none', backgroundColor: '#10b981' }}>
+                            <><a href={outputUrl} download={`cropped_${Date.now()}.png`} className="btn-primary" style={{ textDecoration: 'none', backgroundColor: '#10b981' }}>
                                 <Download size={18} /> Download Selection
                             </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={'processed_file'} 
+                                    fileType="image" 
+                                /></>
                             <button className="btn-secondary" onClick={() => { setOutputUrl(null); setImageUrl(null); }}>
                                 Crop Another
                             </button>

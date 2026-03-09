@@ -178,6 +178,10 @@ export function ImageFilters() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Add Photo Filters</h2>
+                <p>Apply beautiful presets and color filters to your pictures. Adjust brightness, contrast, and saturation.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to apply filters" />
             </div>
         );
@@ -185,6 +189,10 @@ export function ImageFilters() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Add Photo Filters</h2>
+                <p>Apply beautiful presets and color filters to your pictures. Adjust brightness, contrast, and saturation.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 

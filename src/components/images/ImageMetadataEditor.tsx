@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import exifr from 'exifr';
@@ -151,6 +152,10 @@ export function ImageMetadataEditor() {
     if (!imageUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Edit Image Metadata</h2>
+                <p>View, edit, or strip hidden EXIF metadata (location, device details) from your digital photographs.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to scan for metadata" />
             </div>
         );
@@ -158,6 +163,10 @@ export function ImageMetadataEditor() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Edit Image Metadata</h2>
+                <p>View, edit, or strip hidden EXIF metadata (location, device details) from your digital photographs.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '900px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%' }}>
 
@@ -191,7 +200,13 @@ export function ImageMetadataEditor() {
                                             <div>
                                                 <h4 style={{ margin: 0, color: '#9f1239' }}>Found {originalMetadataCount} metadata entries.</h4>
                                                 <p style={{ margin: 0, fontSize: '0.85rem', color: '#be123c' }}>This file contains hidden tracking data (EXIF/GPS/Tags).</p>
-                                            </div>
+                                            
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={imageFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                />
                                         </>
                                     ) : (
                                         <>
@@ -199,7 +214,13 @@ export function ImageMetadataEditor() {
                                             <div>
                                                 <h4 style={{ margin: 0, color: '#166534' }}>File is Clean</h4>
                                                 <p style={{ margin: 0, fontSize: '0.85rem', color: '#16a34a' }}>No standard embedded tracking data was found.</p>
-                                            </div>
+                                            
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={imageFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                />
                                         </>
                                     )}
                                 </div>
@@ -246,7 +267,13 @@ export function ImageMetadataEditor() {
                                     >
                                         {isProcessing ? loadingMsg : <><Sparkles size={18} /> Strip All PII & EXIF Data</>}
                                     </button>
+                                
                                 </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={imageFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                />
                             </>
                         ) : (
                             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -259,9 +286,18 @@ export function ImageMetadataEditor() {
                                 </div>
 
                                 <div className="actions" style={{ flexDirection: 'column', gap: '0.75rem' }}>
-                                    <a href={outputUrl} download={`safe_${imageFile?.name || 'image.png'}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center', padding: '1rem' }}>
+                                    <><a href={outputUrl} download={`safe_${imageFile?.name || 'image.png'}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center', padding: '1rem' }}>
                                         <Download size={18} /> Download Safe Image
                                     </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl || ''} 
+                                    fileName={imageFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                /></>
                                     <button className="btn-secondary" onClick={() => { setOutputUrl(null); }} style={{ width: '100%', padding: '1rem' }}>
                                         Back to Editor
                                     </button>

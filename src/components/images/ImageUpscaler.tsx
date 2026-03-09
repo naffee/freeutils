@@ -61,6 +61,10 @@ export function ImageUpscaler() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>AI Image Upscaler</h2>
+                <p>Upscale low-resolution images to crystal-clear 4K using advanced AI algorithms without losing quality.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to AI upscale it (2x)" />
             </div>
         );
@@ -68,6 +72,10 @@ export function ImageUpscaler() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>AI Image Upscaler</h2>
+                <p>Upscale low-resolution images to crystal-clear 4K using advanced AI algorithms without losing quality.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
 
                 {/* Header Actions */}

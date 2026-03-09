@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { Download, Zap } from 'lucide-react';
@@ -139,6 +140,10 @@ export function ImageCompressor() {
     if (!imageUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Compress Image</h2>
+                <p>Reduce the file size of your images significantly while preserving high visual quality.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drag & Drop an image to compress" />
             </div>
         );
@@ -146,6 +151,10 @@ export function ImageCompressor() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Compress Image</h2>
+                <p>Reduce the file size of your images significantly while preserving high visual quality.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%' }}>
 
@@ -239,16 +248,31 @@ export function ImageCompressor() {
                                 </div>
 
                                 <div className="actions" style={{ marginTop: '1rem', flexDirection: 'column', gap: '0.75rem' }}>
-                                    <a href={outputUrl} download={`compressed_${imageFile?.name || 'image.png'}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
+                                    <><a href={outputUrl} download={`compressed_${imageFile?.name || 'image.png'}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
                                         <Download size={18} /> Download Image
                                     </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={imageFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                /></>
                                     <button className="btn-secondary" onClick={() => { setOutputUrl(null); }} style={{ width: '100%' }}>
                                         Adjust Target Size
                                     </button>
                                     <button className="btn-secondary" onClick={() => { setOutputUrl(null); setImageUrl(null); }} style={{ width: '100%', border: 'none', background: 'transparent' }}>
                                         Compress Another
                                     </button>
+                                
                                 </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={imageFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                />
                             </>
                         )}
                     </div>

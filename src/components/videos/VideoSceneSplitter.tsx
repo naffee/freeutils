@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { Loader2, Download, RotateCcw, ScissorsSquare, Clapperboard, FileArchive } from 'lucide-react';
 
 export function VideoSceneSplitter() {
@@ -51,6 +52,10 @@ export function VideoSceneSplitter() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Auto Scene Splitter</h2>
+                <p>Automatically detect scene changes and split your video into parts. Save time and organize your footage easily.</p>
+            </div>
                 <Dropzone onFileSelect={handleVideoSelect} accept="video/*" title="Drop a Video to Auto-Split into Scenes" />
             </div>
         );
@@ -58,6 +63,10 @@ export function VideoSceneSplitter() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Auto Scene Splitter</h2>
+                <p>Automatically detect scene changes and split your video into parts. Save time and organize your footage easily.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -79,7 +88,7 @@ export function VideoSceneSplitter() {
                                         <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.8 }}>Ready for download</p>
                                     </div>
                                 </div>
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`scenes_${videoFile?.name.replace(/\.[^/.]+$/, "") || 'video'}.zip`}
                                     className="btn-primary"
@@ -87,6 +96,15 @@ export function VideoSceneSplitter() {
                                 >
                                     <Download size={16} /> Download ZIP
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={videoFile?.name || 'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             </div>
                         )}
                     </div>

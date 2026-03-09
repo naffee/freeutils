@@ -73,6 +73,10 @@ export function RegexTester() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Regex Tester</h2>
+                <p>Test, build, and debug complex Regular Expressions (RegEx) interactively against sample text data.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

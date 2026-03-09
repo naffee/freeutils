@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { RotateCcw, Loader2, Download, PlaySquare, AlertTriangle } from 'lucide-react';
@@ -116,6 +117,10 @@ export function VideoReverser() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Reverse Video</h2>
+                <p>Play your video backwards to create fun and engaging effects. A simple tool to rewind your footage instantly.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="video/*" title="Drop a video to Reverse" />
             </div>
         );
@@ -123,6 +128,10 @@ export function VideoReverser() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Reverse Video</h2>
+                <p>Play your video backwards to create fun and engaging effects. A simple tool to rewind your footage instantly.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -171,7 +180,7 @@ export function VideoReverser() {
                         {/* Core Actions */}
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`reversed_${videoFile?.name || 'video.mp4'}`}
                                     className="btn-primary"
@@ -179,6 +188,15 @@ export function VideoReverser() {
                                 >
                                     <Download size={16} /> Save Reversed Video
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={videoFile?.name || 'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Decoding frames ({progress}%)...</> : <><PlaySquare size={16} style={{ transform: 'scaleX(-1)' }} /> Play it Backwards</>}

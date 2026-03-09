@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { VolumeX, Loader2, Download, RotateCcw } from 'lucide-react';
@@ -90,6 +91,10 @@ export function VideoMuter() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Mute Video</h2>
+                <p>Remove the audio track from your video completely. Quickly silence your footage without compromising visual quality.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="video/*" title="Drop a video to Remove Audio" />
             </div>
         );
@@ -97,6 +102,10 @@ export function VideoMuter() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Mute Video</h2>
+                <p>Remove the audio track from your video completely. Quickly silence your footage without compromising visual quality.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -144,7 +153,7 @@ export function VideoMuter() {
                         {/* Core Actions */}
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`muted_${videoFile?.name || 'video'}`}
                                     className="btn-primary"
@@ -152,6 +161,15 @@ export function VideoMuter() {
                                 >
                                     <Download size={16} /> Save Muted Video
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={videoFile?.name || 'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Stripping Audio...</> : <><VolumeX size={16} /> Remove Audio Now</>}

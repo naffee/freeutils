@@ -64,6 +64,10 @@ export function DiffChecker() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Text Diff Checker</h2>
+                <p>Compare two text documents or code snippets side-by-side to find exactly what changed.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

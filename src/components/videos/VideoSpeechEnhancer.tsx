@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { Loader2, Download, RotateCcw, Sparkles } from 'lucide-react';
 
 export function VideoSpeechEnhancer() {
@@ -52,6 +53,10 @@ export function VideoSpeechEnhancer() {
     if (!mediaUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>AI Speech Enhancer</h2>
+                <p>Restore poor audio quality and enhance background voices. Professional studio-grade vocal improvements in seconds.</p>
+            </div>
                 <Dropzone
                     onFileSelect={handleMediaSelect}
                     accept="video/*,audio/*"
@@ -65,6 +70,10 @@ export function VideoSpeechEnhancer() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>AI Speech Enhancer</h2>
+                <p>Restore poor audio quality and enhance background voices. Professional studio-grade vocal improvements in seconds.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -114,7 +123,7 @@ export function VideoSpeechEnhancer() {
 
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`enhanced_${mediaFile?.name || 'media.mp4'}`}
                                     className="btn-primary"
@@ -122,6 +131,15 @@ export function VideoSpeechEnhancer() {
                                 >
                                     <Download size={16} /> Save Enhanced Media
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> AI Processing...</> : <><Sparkles size={16} /> Enhance Audio</>}

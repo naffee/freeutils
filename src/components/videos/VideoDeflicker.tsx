@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { Loader2, Download, RotateCcw, LightbulbOff } from 'lucide-react';
 
 export function VideoDeflicker() {
@@ -51,6 +52,10 @@ export function VideoDeflicker() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Deflicker Video</h2>
+                <p>Remove annoying flickering and strobe effects from your videos. Perfect for fixing lighting issues and slow-motion shots.</p>
+            </div>
                 <Dropzone onFileSelect={handleVideoSelect} accept="video/*" title="Drop a video to fix Flickering / Strobing" />
             </div>
         );
@@ -58,6 +63,10 @@ export function VideoDeflicker() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Deflicker Video</h2>
+                <p>Remove annoying flickering and strobe effects from your videos. Perfect for fixing lighting issues and slow-motion shots.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -94,7 +103,7 @@ export function VideoDeflicker() {
 
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`deflicker_${videoFile?.name || 'video.mp4'}`}
                                     className="btn-primary"
@@ -102,6 +111,15 @@ export function VideoDeflicker() {
                                 >
                                     <Download size={16} /> Save Restored Video
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={videoFile?.name || 'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Fixing Light Flickers...</> : <><LightbulbOff size={16} /> Deflicker Video</>}

@@ -114,6 +114,10 @@ export function AudioMerger() {
     if (!primaryUrl || !bgUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Merge Audio Files</h2>
+                <p>Combine multiple audio tracks seamlessly into a single file. Perfect for creating mashups or podcast mixes.</p>
+            </div>
                 <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     <div style={{ textAlign: 'center' }}>
                         <h2 style={{ color: '#0f172a', marginBottom: '0.5rem' }}>Audio Merger</h2>
@@ -158,6 +162,10 @@ export function AudioMerger() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Merge Audio Files</h2>
+                <p>Combine multiple audio tracks seamlessly into a single file. Perfect for creating mashups or podcast mixes.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -248,7 +256,7 @@ export function AudioMerger() {
 
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`merged_audio_${Date.now()}.mp3`}
                                     className="btn-primary"
@@ -256,6 +264,9 @@ export function AudioMerger() {
                                 >
                                     <Download size={16} /> Download Merged Audio
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                </div></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Merging...</> : <><Layers size={16} /> Merge Tracks</>}

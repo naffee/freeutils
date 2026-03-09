@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { Download, Scissors, Loader2, RotateCcw } from 'lucide-react';
 
 export function VideoTrimmer() {
@@ -149,6 +150,10 @@ export function VideoTrimmer() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Trim Video</h2>
+                <p>Cut and trim video files to remove unwanted parts. Keep only the best moments with our precise trimming tool.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="video/*" title="Drop a video to Trim it" />
             </div>
         );
@@ -156,6 +161,10 @@ export function VideoTrimmer() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Trim Video</h2>
+                <p>Cut and trim video files to remove unwanted parts. Keep only the best moments with our precise trimming tool.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -266,7 +275,7 @@ export function VideoTrimmer() {
                                     />
                                 </div>
 
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`trimmed_${videoFile?.name}`}
                                     style={{
@@ -285,6 +294,15 @@ export function VideoTrimmer() {
                                 >
                                     <Download size={16} /> Download Clip
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={videoFile?.name || 'processed_file'} 
+                                    fileType="video" 
+                                /></>
                             </div>
                         )}
 

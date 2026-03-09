@@ -4,11 +4,17 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import { TaskQueue, getVideoDuration } from './utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const videoQueue = new TaskQueue(2);
+
+const MAX_FILE_SIZE_MB = 500;
+const MAX_DURATION_SECONDS = 600;
+
 const PORT = process.env.PORT || 3001;
 
 // Setup directories for robust file handling on a VPS
@@ -31,14 +37,17 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
     }
 });
-const upload = multer({ storage });
+const upload = multer({ 
+    storage,
+    limits: { fileSize: MAX_FILE_SIZE_MB * 1024 * 1024 } 
+});
 
 app.use(cors());
 app.use(express.json());
 
 // API Status
 app.get('/api/status', (req, res) => {
-    res.json({ status: 'online', processingTasks: 0 }); // Placeholder for queue stats
+    res.json({ status: 'online', ...videoQueue.getStats() });
 });
 
 import { spawn } from 'child_process';

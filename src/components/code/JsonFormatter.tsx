@@ -53,6 +53,10 @@ export function JsonFormatter() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>JSON Formatter</h2>
+                <p>Format, validate, minify, and prettify raw JSON data easily and securely online.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

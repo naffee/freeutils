@@ -90,6 +90,10 @@ export function AudioConverter() {
     if (!audioUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Audio Converter</h2>
+                <p>Easily convert audio files between popular formats like MP3, WAV, and AAC. Fast, free, and completely online.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="audio/*" title="Drop an Audio file to Convert" />
             </div>
         );
@@ -97,6 +101,10 @@ export function AudioConverter() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Audio Converter</h2>
+                <p>Easily convert audio files between popular formats like MP3, WAV, and AAC. Fast, free, and completely online.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -142,7 +150,7 @@ export function AudioConverter() {
 
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`converted_${audioFile?.name.split('.')[0]}.${targetFormat}`}
                                     className="btn-primary"
@@ -150,6 +158,9 @@ export function AudioConverter() {
                                 >
                                     <Download size={16} /> Download {targetFormat.toUpperCase()}
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                </div></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Converting...</> : <><Music size={16} /> Convert Audio</>}

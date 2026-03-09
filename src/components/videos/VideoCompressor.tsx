@@ -60,6 +60,10 @@ export function VideoCompressor() {
 
     return (
         <div className="video-processor">
+            <div className="seo-writeup">
+                <h2>Compress Video Online</h2>
+                <p>Reduce your video file size without losing quality. Our free video compressor makes sharing and uploading faster.</p>
+            </div>
             {!videoFile ? (
                 <Dropzone onFileSelect={handleFileSelect} title="Drag & Drop video to compress" />
             ) : (

@@ -533,6 +533,30 @@ body {
   gap: 0.25rem;
   font-size: 1.1rem;
 }
+
+/* SEO Writeup Section */
+.seo-writeup {
+  margin-bottom: 2rem;
+  padding: 1.5rem 2rem;
+  background: rgba(139, 92, 246, 0.05);
+  /* very subtle purple */
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--accent-primary);
+  text-align: left;
+}
+
+.seo-writeup h2 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.seo-writeup p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 /* Media Queries */
 @media screen and (max-width: 768px) {
   .app-container {
@@ -585,14 +609,14 @@ body {
   .processing-container {
     padding: 1.5rem;
   }
-  
+
   .editor-container {
     padding: 1rem;
   }
-  
+
   .dedicated-header-left {
-     flex-direction: column;
-     align-items: flex-start !important;
-     gap: 1rem !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem !important;
   }
 }

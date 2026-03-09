@@ -109,6 +109,10 @@ export function ImageMemeGenerator() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Meme Generator</h2>
+                <p>Create hilarious custom memes easily by adding bold, customizable text to your favorite images.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to generate a Meme" />
             </div>
         );
@@ -116,6 +120,10 @@ export function ImageMemeGenerator() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Meme Generator</h2>
+                <p>Create hilarious custom memes easily by adding bold, customizable text to your favorite images.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 

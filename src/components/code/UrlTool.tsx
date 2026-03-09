@@ -35,6 +35,10 @@ export function UrlTool() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>URL Encoder / Decoder</h2>
+                <p>Safely encode and decode URL strings and query parameters to generate valid web links.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

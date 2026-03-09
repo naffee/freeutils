@@ -1,5 +1,6 @@
 import { Upload } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface DropzoneProps {
     onFileSelect: (file: File) => void;
@@ -9,6 +10,19 @@ interface DropzoneProps {
 
 export function Dropzone({ onFileSelect, accept = "video/*", title = "Drag & Drop your video here" }: DropzoneProps) {
     const [isDragOver, setIsDragOver] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Check if a file was passed via router navigation
+        if (location.state && location.state.incomingFile) {
+            const passedFile = location.state.incomingFile;
+            onFileSelect(passedFile);
+
+            // Clear the state so refreshing doesn't trigger it again
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location.state, navigate, location.pathname, onFileSelect]);
 
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -20,12 +34,20 @@ export function Dropzone({ onFileSelect, accept = "video/*", title = "Drag & Dro
         setIsDragOver(false);
     };
 
+    const MAX_FILE_SIZE = 2 * 1024 * 1024 * 1024; // 2GB
+
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault();
         setIsDragOver(false);
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
             const file = e.dataTransfer.files[0];
             const fileType = accept.split('/')[0];
+
+            if (file.size > MAX_FILE_SIZE) {
+                alert(`File is too large! Maximum allowed size is 2GB for browser safety.`);
+                return;
+            }
+
             if (file.type.startsWith(`${fileType}/`) || accept === "*/*") {
                 onFileSelect(file);
             } else {
@@ -36,7 +58,12 @@ export function Dropzone({ onFileSelect, accept = "video/*", title = "Drag & Dro
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            onFileSelect(e.target.files[0]);
+            const file = e.target.files[0];
+            if (file.size > MAX_FILE_SIZE) {
+                alert(`File is too large! Maximum allowed size is 2GB for browser safety.`);
+                return;
+            }
+            onFileSelect(file);
         }
     };
 

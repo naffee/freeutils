@@ -117,6 +117,10 @@ export function VideoThumbnailMaker() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Video Thumbnail Extractor</h2>
+                <p>Capture the perfect thumbnail or poster frame from your video. Generate engaging cover images effortlessly.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="video/*" title="Drop a video to Extract Thumbnail" />
             </div>
         );
@@ -124,6 +128,10 @@ export function VideoThumbnailMaker() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Video Thumbnail Extractor</h2>
+                <p>Capture the perfect thumbnail or poster frame from your video. Generate engaging cover images effortlessly.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 

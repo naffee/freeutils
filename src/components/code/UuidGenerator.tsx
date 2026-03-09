@@ -39,6 +39,10 @@ export function UuidGenerator() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>UUID Generator</h2>
+                <p>Quickly generate cryptographically secure, random bulk version 4 UUIDs (Universally Unique Identifiers).</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

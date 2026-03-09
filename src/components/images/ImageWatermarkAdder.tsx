@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { Download, Layers, Trash2, Move, Copy } from 'lucide-react';
@@ -223,6 +224,10 @@ export function ImageWatermarkAdder() {
     if (!mainUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Add Watermark to Image</h2>
+                <p>Protect your original photography by stamping custom text or logo watermarks on your images.</p>
+            </div>
                 <Dropzone onFileSelect={handleMainFileSelect} accept="image/*" title="Drag & Drop your BASE image" />
             </div>
         );
@@ -423,16 +428,31 @@ export function ImageWatermarkAdder() {
                                 </h3>
 
                                 <div className="actions" style={{ marginTop: '1rem', flexDirection: 'column', gap: '0.75rem' }}>
-                                    <a href={outputUrl} download={`watermarked_${mainFile?.name}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
+                                    <><a href={outputUrl} download={`watermarked_${mainFile?.name}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
                                         <Download size={18} /> Download Image
                                     </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                
+                                </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={mainFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                /></>
                                     <button className="btn-secondary" onClick={() => { setOutputUrl(null); }} style={{ width: '100%' }}>
                                         Back to Editor
                                     </button>
                                     <button className="btn-secondary" onClick={() => { setOutputUrl(null); setMainUrl(null); setWatermarks([]); }} style={{ width: '100%', border: 'none', background: 'transparent' }}>
                                         Start Completely Over
                                     </button>
+                                
                                 </div>
+                                <NextStepSuggestions 
+                                    fileUrl={outputUrl} 
+                                    fileName={mainFile?.name || 'processed_file'} 
+                                    fileType="image" 
+                                />
                             </>
                         )}
                     </div>

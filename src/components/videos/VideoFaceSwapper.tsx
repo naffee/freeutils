@@ -61,6 +61,10 @@ export function VideoFaceSwapper() {
 
     return (
         <div className="tool-container">
+            <div className="seo-writeup">
+                <h2>AI Face Swapper</h2>
+                <p>Swap faces in your videos using advanced AI technology. Create fun, engaging content with just a few clicks.</p>
+            </div>
             <div className="tool-header">
                 <Sparkles size={24} className="text-purple-500" />
                 <h2>AI Video Face Swapper</h2>

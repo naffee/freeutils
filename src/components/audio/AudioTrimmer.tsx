@@ -147,6 +147,10 @@ export function AudioTrimmer() {
     if (!audioUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Trim Audio</h2>
+                <p>Cut and trim your audio files with precision. Create custom ringtones or shorten song clips quickly and securely.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="audio/*" title="Drop an Audio file to Trim/Cut with Preview" />
             </div>
         );
@@ -154,6 +158,10 @@ export function AudioTrimmer() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Trim Audio</h2>
+                <p>Cut and trim your audio files with precision. Create custom ringtones or shorten song clips quickly and securely.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
                 <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
 
@@ -266,7 +274,7 @@ export function AudioTrimmer() {
 
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
-                                <a
+                                <><a
                                     href={outputUrl}
                                     download={`trimmed_${audioFile?.name}`}
                                     className="btn-primary"
@@ -274,6 +282,9 @@ export function AudioTrimmer() {
                                 >
                                     <Download size={16} /> Save Trimmed Track
                                 </a>
+                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
+                                </div></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Finalizing...</> : <><Scissors size={16} /> Perform Cut</>}

@@ -60,6 +60,10 @@ export function ImageBackgroundRemover() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Remove Image Background</h2>
+                <p>Instantly remove image backgrounds using advanced AI. Create transparent PNGs for your designs.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to remove its background" />
             </div>
         );
@@ -67,6 +71,10 @@ export function ImageBackgroundRemover() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Remove Image Background</h2>
+                <p>Instantly remove image backgrounds using advanced AI. Create transparent PNGs for your designs.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
 
                 {/* Header Actions */}

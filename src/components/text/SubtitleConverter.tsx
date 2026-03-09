@@ -73,6 +73,10 @@ export function SubtitleConverter() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Subtitle Converter</h2>
+                <p>Convert subtitle files between SRT, VTT, and ASS formats effortlessly for all media players.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '900px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

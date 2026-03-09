@@ -53,6 +53,10 @@ export function Base64Tool() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Base64 Encoder / Decoder</h2>
+                <p>Encode or decode text and files to and from Base64 format securely in your browser.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 

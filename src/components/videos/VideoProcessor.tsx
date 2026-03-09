@@ -123,6 +123,10 @@ export function VideoProcessor() {
 
     return (
         <div className="video-processor">
+            <div className="seo-writeup">
+                <h2>Extract Frames from Video</h2>
+                <p>Pull high-quality image frames from your video footage. Fast, secure, and completely free in-browser processing.</p>
+            </div>
             {!videoFile || (!isProcessing && frames.length === 0) ? (
                 <Dropzone onFileSelect={handleVideoSelect} />
             ) : (

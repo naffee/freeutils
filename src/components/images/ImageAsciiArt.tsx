@@ -143,6 +143,10 @@ export function ImageAsciiArt() {
     if (!originalUrl) {
         return (
             <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Image to ASCII Art</h2>
+                <p>Transform any colorful image into retro-style text-based ASCII art effortlessly.</p>
+            </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="image/*" title="Drop an image to generate ASCII Art" />
             </div>
         );
@@ -150,6 +154,10 @@ export function ImageAsciiArt() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Image to ASCII Art</h2>
+                <p>Transform any colorful image into retro-style text-based ASCII art effortlessly.</p>
+            </div>
             {/* Hidden canvas for processing */}
             <canvas ref={canvasRef} style={{ display: 'none' }} />
 

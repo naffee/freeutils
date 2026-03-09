@@ -69,6 +69,10 @@ export function TimestampConverter() {
 
     return (
         <div className="watermark-remover">
+            <div className="seo-writeup">
+                <h2>Timestamp Converter</h2>
+                <p>Convert Unix epoch timestamps to human-readable dates, times, and multiple common formats instantly.</p>
+            </div>
             <div className="editor-container" style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
                 <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
