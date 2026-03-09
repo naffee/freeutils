@@ -319,7 +319,7 @@ export function ImageWatermarkAdder() {
                             </div>
                         )}
 
-                        <div style={{ marginTop: '1rem', textAlign: 'center', color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>
+                        <div className="tool-preview-caption">
                             {outputUrl ? `Final Baked Image` : `Live Interactive Preview - Click & Drag to move`}
                         </div>
                     </div>
@@ -341,27 +341,19 @@ export function ImageWatermarkAdder() {
                                         <div className="tool-layer-header">
                                             Active Layers ({watermarks.length})
                                         </div>
-                                        <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                                        <div className="tool-scroll-region">
                                             {watermarks.map((wm, i) => (
                                                 <div
                                                     key={wm.id}
                                                     onClick={() => setActiveWmId(wm.id)}
-                                                    style={{
-                                                        padding: '0.75rem 1rem',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: '0.75rem',
-                                                        borderBottom: '1px solid #f1f5f9',
-                                                        background: activeWmId === wm.id ? '#eff6ff' : '#ffffff',
-                                                        cursor: 'pointer',
-                                                        transition: 'background 0.2s'
-                                                    }}
+                                                    className="tool-layer-row"
+                                                    style={{ background: activeWmId === wm.id ? '#eff6ff' : '#ffffff' }}
                                                 >
                                                     <img src={wm.url} alt={`layer ${i}`} style={{ width: '32px', height: '32px', objectFit: 'contain', background: '#e2e8f0', borderRadius: '4px' }} />
-                                                    <div style={{ flex: 1, fontSize: '0.9rem', color: activeWmId === wm.id ? '#0284c7' : '#64748b', fontWeight: activeWmId === wm.id ? 600 : 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                    <div className="tool-layer-name" style={{ color: activeWmId === wm.id ? '#0284c7' : '#64748b', fontWeight: activeWmId === wm.id ? 600 : 400 }}>
                                                         {wm.file.name}
                                                     </div>
-                                                    <div style={{ display: 'flex', gap: '0.25rem' }}>
+                                                    <div className="tool-layer-actions">
                                                         <button onClick={(e) => { e.stopPropagation(); duplicateWatermark(wm); }} style={{ background: 'none', border: 'none', color: '#0284c7', padding: '4px', cursor: 'pointer', borderRadius: '4px' }} title="Duplicate layer">
                                                             <Copy size={16} />
                                                         </button>

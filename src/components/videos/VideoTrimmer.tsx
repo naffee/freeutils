@@ -172,7 +172,7 @@ export function VideoTrimmer() {
                     <div className="tool-preview-panel">
 
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
-                            <div style={{ position: 'relative', display: 'inline-block', maxWidth: '100%', maxHeight: '500px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', background: '#000' }}>
+                            <div className="tool-media-frame" style={{ position: 'relative', display: 'inline-block', maxWidth: '100%', maxHeight: '500px' }}>
                                 <video
                                     ref={videoRef}
                                     src={videoUrl}
@@ -252,7 +252,7 @@ export function VideoTrimmer() {
 
                         {/* Action List */}
                         {isProcessing && (
-                            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '1rem', borderRadius: '8px' }}>
+                            <div className="tool-accent-note">
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#166534', fontWeight: 600 }}>
                                     <span>Trimming...</span>
                                     <span>{progress}%</span>
@@ -267,7 +267,7 @@ export function VideoTrimmer() {
                             <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', padding: '1.25rem', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', textAlign: 'center' }}>
                                 <div style={{ color: '#1d4ed8', fontWeight: 600, fontSize: '0.95rem' }}>Trim Complete!</div>
 
-                                <div style={{ width: '100%', borderRadius: '6px', overflow: 'hidden', background: '#000', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                                <div className="tool-media-frame">
                                     <video
                                         src={outputUrl}
                                         controls
@@ -307,7 +307,7 @@ export function VideoTrimmer() {
                         )}
 
                         {/* Core Actions */}
-                        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        <div className="tool-action-footer">
                             <button className="btn-secondary" onClick={() => { setVideoUrl(null); setVideoFile(null); setOutputUrl(null); }} disabled={isProcessing} style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                 <RotateCcw size={16} /> Start Over
                             </button>

@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { lazy, Suspense, useEffect, type ComponentType } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Home } from './components/home/Home.tsx';
 import { Film, Image as ImageIcon, Server, Scissors, Music as MusicIcon, Code as CodeIcon } from 'lucide-react';
 import './index.css';
@@ -7,71 +8,77 @@ import { SeoContent } from './seo/SeoContent';
 import { NotFoundPage } from './components/shared/NotFoundPage';
 import { BrandLogo } from './components/shared/BrandLogo';
 import { domainLabels, getRouteMeta, getToolDisplayName, isDomain, toolMetaByDomain } from './seo/routeMeta';
-import { VideoProcessor } from './components/videos/VideoProcessor';
-import { VideoCompressor } from './components/videos/VideoCompressor.tsx';
-import { VideoTrimmer } from './components/videos/VideoTrimmer.tsx';
-import { VideoResizer } from './components/videos/VideoResizer.tsx';
-import { VideoConverter } from './components/videos/VideoConverter.tsx';
-import { VideoThumbnailMaker } from './components/videos/VideoThumbnailMaker.tsx';
-import { VideoSpeedChanger } from './components/videos/VideoSpeedChanger.tsx';
-import { VideoMuter } from './components/videos/VideoMuter.tsx';
-import { VideoAudioAdder } from './components/videos/VideoAudioAdder.tsx';
-import { VideoToGif } from './components/videos/VideoToGif.tsx';
-import { VideoRotator } from './components/videos/VideoRotator.tsx';
-import { VideoReverser } from './components/videos/VideoReverser.tsx';
-import { VideoMerger } from './components/videos/VideoMerger.tsx';
-import { VideoWatermarkAdder } from './components/videos/VideoWatermarkAdder.tsx';
-import { VideoVolumeChanger } from './components/videos/VideoVolumeChanger.tsx';
-import { AudioExtractor } from './components/videos/AudioExtractor.tsx';
-import { VideoFilterAdder } from './components/videos/VideoFilterAdder.tsx';
-import { VideoSubtitleBurner } from './components/videos/VideoSubtitleBurner.tsx';
-import { VideoStabilizer } from './components/videos/VideoStabilizer.tsx';
-import { VideoNoiseReducer } from './components/videos/VideoNoiseReducer.tsx';
-import { VideoInterpolator } from './components/videos/VideoInterpolator.tsx';
-import { VideoSceneSplitter } from './components/videos/VideoSceneSplitter.tsx';
-import { VideoDeflicker } from './components/videos/VideoDeflicker.tsx';
-import { VideoAutoCrop } from './components/videos/VideoAutoCrop.tsx';
-import { VideoCropper } from './components/videos/VideoCropper.tsx';
-import { VideoKaraokeMaker } from './components/videos/VideoKaraokeMaker.tsx';
-import { VideoFaceSwapper } from './components/videos/VideoFaceSwapper.tsx';
-import { VideoSubtitleRemover } from './components/videos/VideoSubtitleRemover.tsx';
-import { MediaTranslator } from './components/videos/MediaTranslator.tsx';
-import { VideoSpeechEnhancer } from './components/videos/VideoSpeechEnhancer.tsx';
-import { AudioConverter } from './components/audio/AudioConverter.tsx';
-import { AudioTrimmer } from './components/audio/AudioTrimmer.tsx';
-import { AudioMerger } from './components/audio/AudioMerger.tsx';
-import { JsonFormatter } from './components/code/JsonFormatter.tsx';
-import { Base64Tool } from './components/code/Base64Tool.tsx';
-import { HashGenerator } from './components/code/HashGenerator.tsx';
-import { UuidGenerator } from './components/code/UuidGenerator.tsx';
-import { RegexTester } from './components/code/RegexTester.tsx';
-import { DiffChecker } from './components/code/DiffChecker.tsx';
-import { CodeMinifier } from './components/code/CodeMinifier.tsx';
-import { CodePrettifier } from './components/code/CodePrettifier.tsx';
-import { JwtDecoder } from './components/code/JwtDecoder.tsx';
-import { TimestampConverter } from './components/code/TimestampConverter.tsx';
-import { UrlTool } from './components/code/UrlTool.tsx';
-import { CodeLinter } from './components/code/CodeLinter.tsx';
-import { SubtitleConverter } from './components/text/SubtitleConverter.tsx';
-import { ImageWatermarkRemover } from './components/images/ImageWatermarkRemover.tsx';
-import { ImageCropper } from './components/images/ImageCropper.tsx';
-import { ImageResizer } from './components/images/ImageResizer.tsx';
-import { ImageCompressor } from './components/images/ImageCompressor.tsx';
-import { ImageConverter } from './components/images/ImageConverter.tsx';
-import { ImageRotator } from './components/images/ImageRotator.tsx';
-import { ImageWatermarkAdder } from './components/images/ImageWatermarkAdder.tsx';
-import { ImageMetadataEditor } from './components/images/ImageMetadataEditor.tsx';
-import { ImageFilters } from './components/images/ImageFilters.tsx';
-import { ImageAsciiArt } from './components/images/ImageAsciiArt.tsx';
-import { ImageColorExtractor } from './components/images/ImageColorExtractor.tsx';
-import { ImageBackgroundRemover } from './components/images/ImageBackgroundRemover.tsx';
-import { ImageUpscaler } from './components/images/ImageUpscaler.tsx';
-import { ImageStylizer } from './components/images/ImageStylizer.tsx';
-import { ImageMemeGenerator } from './components/images/ImageMemeGenerator.tsx';
-import { ImageScreenshotBeautifier } from './components/images/ImageScreenshotBeautifier.tsx';
 import { ArrowRightLeft, Maximize, Zap, Repeat, RefreshCw, Layers, Tag, Sliders, Palette, Eraser, Sparkles, Brush, Smile, LayoutTemplate, ImagePlus, FastForward, VolumeX, Music, FileImage, RotateCw, History, Merge, Stamp, Volume2, FileAudio, Wand2, Type as TypeIcon, Waves, MicOff, Zap as ZapIcon, ScissorsSquare, LightbulbOff, Crop, Mic2, Braces, Fingerprint, Search, Columns, Minimize2, ShieldCheck, Clock, Globe, Shield } from 'lucide-react';
 
 type Domain = 'videos' | 'images' | 'audio' | 'code' | 'text';
+
+const lazyNamed = <T extends Record<string, ComponentType<any>>>(
+  loader: () => Promise<T>,
+  key: keyof T,
+) => lazy(async () => ({ default: (await loader())[key] }));
+
+const VideoProcessor = lazyNamed(() => import('./components/videos/VideoProcessor'), 'VideoProcessor');
+const VideoCompressor = lazyNamed(() => import('./components/videos/VideoCompressor.tsx'), 'VideoCompressor');
+const VideoTrimmer = lazyNamed(() => import('./components/videos/VideoTrimmer.tsx'), 'VideoTrimmer');
+const VideoResizer = lazyNamed(() => import('./components/videos/VideoResizer.tsx'), 'VideoResizer');
+const VideoConverter = lazyNamed(() => import('./components/videos/VideoConverter.tsx'), 'VideoConverter');
+const VideoThumbnailMaker = lazyNamed(() => import('./components/videos/VideoThumbnailMaker.tsx'), 'VideoThumbnailMaker');
+const VideoSpeedChanger = lazyNamed(() => import('./components/videos/VideoSpeedChanger.tsx'), 'VideoSpeedChanger');
+const VideoMuter = lazyNamed(() => import('./components/videos/VideoMuter.tsx'), 'VideoMuter');
+const VideoAudioAdder = lazyNamed(() => import('./components/videos/VideoAudioAdder.tsx'), 'VideoAudioAdder');
+const VideoToGif = lazyNamed(() => import('./components/videos/VideoToGif.tsx'), 'VideoToGif');
+const VideoRotator = lazyNamed(() => import('./components/videos/VideoRotator.tsx'), 'VideoRotator');
+const VideoReverser = lazyNamed(() => import('./components/videos/VideoReverser.tsx'), 'VideoReverser');
+const VideoMerger = lazyNamed(() => import('./components/videos/VideoMerger.tsx'), 'VideoMerger');
+const VideoWatermarkAdder = lazyNamed(() => import('./components/videos/VideoWatermarkAdder.tsx'), 'VideoWatermarkAdder');
+const VideoVolumeChanger = lazyNamed(() => import('./components/videos/VideoVolumeChanger.tsx'), 'VideoVolumeChanger');
+const AudioExtractor = lazyNamed(() => import('./components/videos/AudioExtractor.tsx'), 'AudioExtractor');
+const VideoFilterAdder = lazyNamed(() => import('./components/videos/VideoFilterAdder.tsx'), 'VideoFilterAdder');
+const VideoSubtitleBurner = lazyNamed(() => import('./components/videos/VideoSubtitleBurner.tsx'), 'VideoSubtitleBurner');
+const VideoStabilizer = lazyNamed(() => import('./components/videos/VideoStabilizer.tsx'), 'VideoStabilizer');
+const VideoNoiseReducer = lazyNamed(() => import('./components/videos/VideoNoiseReducer.tsx'), 'VideoNoiseReducer');
+const VideoInterpolator = lazyNamed(() => import('./components/videos/VideoInterpolator.tsx'), 'VideoInterpolator');
+const VideoSceneSplitter = lazyNamed(() => import('./components/videos/VideoSceneSplitter.tsx'), 'VideoSceneSplitter');
+const VideoDeflicker = lazyNamed(() => import('./components/videos/VideoDeflicker.tsx'), 'VideoDeflicker');
+const VideoAutoCrop = lazyNamed(() => import('./components/videos/VideoAutoCrop.tsx'), 'VideoAutoCrop');
+const VideoCropper = lazyNamed(() => import('./components/videos/VideoCropper.tsx'), 'VideoCropper');
+const VideoKaraokeMaker = lazyNamed(() => import('./components/videos/VideoKaraokeMaker.tsx'), 'VideoKaraokeMaker');
+const VideoFaceSwapper = lazyNamed(() => import('./components/videos/VideoFaceSwapper.tsx'), 'VideoFaceSwapper');
+const VideoSubtitleRemover = lazyNamed(() => import('./components/videos/VideoSubtitleRemover.tsx'), 'VideoSubtitleRemover');
+const MediaTranslator = lazyNamed(() => import('./components/videos/MediaTranslator.tsx'), 'MediaTranslator');
+const VideoSpeechEnhancer = lazyNamed(() => import('./components/videos/VideoSpeechEnhancer.tsx'), 'VideoSpeechEnhancer');
+const AudioConverter = lazyNamed(() => import('./components/audio/AudioConverter.tsx'), 'AudioConverter');
+const AudioTrimmer = lazyNamed(() => import('./components/audio/AudioTrimmer.tsx'), 'AudioTrimmer');
+const AudioMerger = lazyNamed(() => import('./components/audio/AudioMerger.tsx'), 'AudioMerger');
+const JsonFormatter = lazyNamed(() => import('./components/code/JsonFormatter.tsx'), 'JsonFormatter');
+const Base64Tool = lazyNamed(() => import('./components/code/Base64Tool.tsx'), 'Base64Tool');
+const HashGenerator = lazyNamed(() => import('./components/code/HashGenerator.tsx'), 'HashGenerator');
+const UuidGenerator = lazyNamed(() => import('./components/code/UuidGenerator.tsx'), 'UuidGenerator');
+const RegexTester = lazyNamed(() => import('./components/code/RegexTester.tsx'), 'RegexTester');
+const DiffChecker = lazyNamed(() => import('./components/code/DiffChecker.tsx'), 'DiffChecker');
+const CodeMinifier = lazyNamed(() => import('./components/code/CodeMinifier.tsx'), 'CodeMinifier');
+const CodePrettifier = lazyNamed(() => import('./components/code/CodePrettifier.tsx'), 'CodePrettifier');
+const JwtDecoder = lazyNamed(() => import('./components/code/JwtDecoder.tsx'), 'JwtDecoder');
+const TimestampConverter = lazyNamed(() => import('./components/code/TimestampConverter.tsx'), 'TimestampConverter');
+const UrlTool = lazyNamed(() => import('./components/code/UrlTool.tsx'), 'UrlTool');
+const CodeLinter = lazyNamed(() => import('./components/code/CodeLinter.tsx'), 'CodeLinter');
+const SubtitleConverter = lazyNamed(() => import('./components/text/SubtitleConverter.tsx'), 'SubtitleConverter');
+const ImageWatermarkRemover = lazyNamed(() => import('./components/images/ImageWatermarkRemover.tsx'), 'ImageWatermarkRemover');
+const ImageCropper = lazyNamed(() => import('./components/images/ImageCropper.tsx'), 'ImageCropper');
+const ImageResizer = lazyNamed(() => import('./components/images/ImageResizer.tsx'), 'ImageResizer');
+const ImageCompressor = lazyNamed(() => import('./components/images/ImageCompressor.tsx'), 'ImageCompressor');
+const ImageConverter = lazyNamed(() => import('./components/images/ImageConverter.tsx'), 'ImageConverter');
+const ImageRotator = lazyNamed(() => import('./components/images/ImageRotator.tsx'), 'ImageRotator');
+const ImageWatermarkAdder = lazyNamed(() => import('./components/images/ImageWatermarkAdder.tsx'), 'ImageWatermarkAdder');
+const ImageMetadataEditor = lazyNamed(() => import('./components/images/ImageMetadataEditor.tsx'), 'ImageMetadataEditor');
+const ImageFilters = lazyNamed(() => import('./components/images/ImageFilters.tsx'), 'ImageFilters');
+const ImageAsciiArt = lazyNamed(() => import('./components/images/ImageAsciiArt.tsx'), 'ImageAsciiArt');
+const ImageColorExtractor = lazyNamed(() => import('./components/images/ImageColorExtractor.tsx'), 'ImageColorExtractor');
+const ImageBackgroundRemover = lazyNamed(() => import('./components/images/ImageBackgroundRemover.tsx'), 'ImageBackgroundRemover');
+const ImageUpscaler = lazyNamed(() => import('./components/images/ImageUpscaler.tsx'), 'ImageUpscaler');
+const ImageStylizer = lazyNamed(() => import('./components/images/ImageStylizer.tsx'), 'ImageStylizer');
+const ImageMemeGenerator = lazyNamed(() => import('./components/images/ImageMemeGenerator.tsx'), 'ImageMemeGenerator');
+const ImageScreenshotBeautifier = lazyNamed(() => import('./components/images/ImageScreenshotBeautifier.tsx'), 'ImageScreenshotBeautifier');
 
 
 function ToolCatalog() {
@@ -265,7 +272,7 @@ function ToolCatalog() {
               onClick={() => navigate('/app/videos/reduce-video-noise')}
             >
               <div className="card-header"><MicOff size={16} /> <span>Noise Reduction</span></div>
-              <p className="card-desc">Clean up background noise and isolate vocals using advanced AI.</p>
+              <p className="card-desc">Clean up background noise and improve vocal clarity with a browser-based workflow.</p>
             </button>
             <button
               className={`catalog-card ${activeTool === 'smooth-video-motion' ? 'active' : ''}`}
@@ -293,7 +300,7 @@ function ToolCatalog() {
               onClick={() => navigate('/app/videos/auto-crop-video')}
             >
               <div className="card-header"><Crop size={16} /> <span>Auto-Crop</span></div>
-              <p className="card-desc">Use AI tracking to automatically keep the main subject in frame.</p>
+              <p className="card-desc">Automatically keep the main subject in frame with smart cropping.</p>
             </button>
             <button
               className={`catalog-card ${activeTool === 'crop-video' ? 'active' : ''}`}
@@ -314,7 +321,7 @@ function ToolCatalog() {
               onClick={() => navigate('/app/videos/swap-face-in-video')}
             >
               <div className="card-header"><Sparkles size={16} /> <span>Face Swapper</span></div>
-              <p className="card-desc">Seamlessly swap faces in any video using state-of-the-art AI technology.</p>
+              <p className="card-desc">Seamlessly swap faces in any video with a guided face-swap workflow.</p>
             </button>
             <button
               className={`catalog-card ${activeTool === 'remove-subtitles-from-video' ? 'active' : ''}`}
@@ -334,7 +341,7 @@ function ToolCatalog() {
               className={`catalog-card ${activeTool === 'enhance-video-speech' ? 'active' : ''}`}
               onClick={() => navigate('/app/videos/enhance-video-speech')}
             >
-              <div className="card-header"><Sparkles size={16} /> <span>AI Speech Enhancer</span></div>
+              <div className="card-header"><Sparkles size={16} /> <span>Speech Enhancer</span></div>
               <p className="card-desc">Restore poor audio quality and enhance voices to studio grade.</p>
             </button>
           </div >
@@ -369,7 +376,7 @@ function ToolCatalog() {
                 className={`catalog-card ${activeTool === 'enhance-audio-speech' ? 'active' : ''}`}
               onClick={() => navigate('/app/audio/enhance-audio-speech')}
               >
-                <div className="card-header"><Sparkles size={16} /> <span>AI Restore Speech</span></div>
+                <div className="card-header"><Sparkles size={16} /> <span>Restore Speech</span></div>
                 <p className="card-desc">Enhance voice clarity and remove background noise for professional audio quality.</p>
               </button>
             </div >
@@ -566,13 +573,13 @@ function ToolCatalog() {
               onClick={() => navigate('/app/images/remove-image-background')}
               >
                 <div className="card-header"><Eraser size={16} /> <span>Remove Background</span></div>
-                <p className="card-desc">Instantly remove image backgrounds using advanced AI segmentation.</p>
+                <p className="card-desc">Instantly remove image backgrounds with a fast browser-based workflow.</p>
               </button >
               <button
                 className={`catalog-card ${activeTool === 'upscale-image' ? 'active' : ''}`}
               onClick={() => navigate('/app/images/upscale-image')}
               >
-                <div className="card-header"><Sparkles size={16} /> <span>AI Upscaler</span></div>
+                <div className="card-header"><Sparkles size={16} /> <span>Image Upscaler</span></div>
                 <p className="card-desc">Upscale low-resolution images to crystal clear 4K without losing quality.</p>
               </button >
               <button
@@ -683,73 +690,86 @@ function DedicatedToolPage() {
             </button>
           </div>
 
-        {activeDomain === 'videos' && activeTool === 'extract-frames-from-video' && <VideoProcessor />}
-        {activeDomain === 'videos' && activeTool === 'compress-video' && <VideoCompressor />}
-        {activeDomain === 'videos' && activeTool === 'trim-video' && <VideoTrimmer />}
-        {activeDomain === 'videos' && activeTool === 'resize-video' && <VideoResizer />}
-        {activeDomain === 'videos' && activeTool === 'convert-video' && <VideoConverter />}
-        {activeDomain === 'videos' && activeTool === 'extract-video-thumbnail' && <VideoThumbnailMaker />}
-        {activeDomain === 'videos' && activeTool === 'change-video-speed' && <VideoSpeedChanger />}
-        {activeDomain === 'videos' && activeTool === 'mute-video' && <VideoMuter />}
-        {activeDomain === 'videos' && activeTool === 'add-audio-to-video' && <VideoAudioAdder />}
-        {activeDomain === 'videos' && activeTool === 'convert-video-to-gif' && <VideoToGif />}
-        {activeDomain === 'videos' && activeTool === 'rotate-or-flip-video' && <VideoRotator />}
-        {activeDomain === 'videos' && activeTool === 'reverse-video' && <VideoReverser />}
-        {activeDomain === 'videos' && activeTool === 'merge-videos' && <VideoMerger />}
-        {activeDomain === 'videos' && activeTool === 'add-watermark-to-video' && <VideoWatermarkAdder />}
-        {activeDomain === 'videos' && activeTool === 'change-video-volume' && <VideoVolumeChanger />}
-        {activeDomain === 'videos' && activeTool === 'extract-audio-from-video' && <AudioExtractor />}
-        {activeDomain === 'videos' && activeTool === 'add-filter-to-video' && <VideoFilterAdder />}
-        {activeDomain === 'videos' && activeTool === 'add-subtitles-to-video' && <VideoSubtitleBurner />}
-        {activeDomain === 'videos' && activeTool === 'stabilize-video' && <VideoStabilizer />}
-        {activeDomain === 'videos' && activeTool === 'reduce-video-noise' && <VideoNoiseReducer />}
-        {activeDomain === 'videos' && activeTool === 'smooth-video-motion' && <VideoInterpolator />}
-        {activeDomain === 'videos' && activeTool === 'split-video-scenes' && <VideoSceneSplitter />}
-        {activeDomain === 'videos' && activeTool === 'deflicker-video' && <VideoDeflicker />}
-        {activeDomain === 'videos' && activeTool === 'auto-crop-video' && <VideoAutoCrop />}
-        {activeDomain === 'videos' && activeTool === 'crop-video' && <VideoCropper />}
-        {activeDomain === 'videos' && activeTool === 'create-karaoke-video' && <VideoKaraokeMaker />}
-        {activeDomain === 'videos' && activeTool === 'swap-face-in-video' && <VideoFaceSwapper />}
-        {activeDomain === 'videos' && activeTool === 'remove-subtitles-from-video' && <VideoSubtitleRemover />}
-        {activeDomain === 'videos' && activeTool === 'translate-video' && <MediaTranslator />}
-        {activeDomain === 'videos' && activeTool === 'enhance-video-speech' && <VideoSpeechEnhancer />}
+          <Suspense
+            fallback={
+              <div className="processing-container">
+                <div className="loading-state">
+                  <p>Loading tool workspace...</p>
+                  <div className="progress-bar">
+                    <div className="progress-fill" style={{ width: '100%' }} />
+                  </div>
+                </div>
+              </div>
+            }
+          >
+            {activeDomain === 'videos' && activeTool === 'extract-frames-from-video' && <VideoProcessor />}
+            {activeDomain === 'videos' && activeTool === 'compress-video' && <VideoCompressor />}
+            {activeDomain === 'videos' && activeTool === 'trim-video' && <VideoTrimmer />}
+            {activeDomain === 'videos' && activeTool === 'resize-video' && <VideoResizer />}
+            {activeDomain === 'videos' && activeTool === 'convert-video' && <VideoConverter />}
+            {activeDomain === 'videos' && activeTool === 'extract-video-thumbnail' && <VideoThumbnailMaker />}
+            {activeDomain === 'videos' && activeTool === 'change-video-speed' && <VideoSpeedChanger />}
+            {activeDomain === 'videos' && activeTool === 'mute-video' && <VideoMuter />}
+            {activeDomain === 'videos' && activeTool === 'add-audio-to-video' && <VideoAudioAdder />}
+            {activeDomain === 'videos' && activeTool === 'convert-video-to-gif' && <VideoToGif />}
+            {activeDomain === 'videos' && activeTool === 'rotate-or-flip-video' && <VideoRotator />}
+            {activeDomain === 'videos' && activeTool === 'reverse-video' && <VideoReverser />}
+            {activeDomain === 'videos' && activeTool === 'merge-videos' && <VideoMerger />}
+            {activeDomain === 'videos' && activeTool === 'add-watermark-to-video' && <VideoWatermarkAdder />}
+            {activeDomain === 'videos' && activeTool === 'change-video-volume' && <VideoVolumeChanger />}
+            {activeDomain === 'videos' && activeTool === 'extract-audio-from-video' && <AudioExtractor />}
+            {activeDomain === 'videos' && activeTool === 'add-filter-to-video' && <VideoFilterAdder />}
+            {activeDomain === 'videos' && activeTool === 'add-subtitles-to-video' && <VideoSubtitleBurner />}
+            {activeDomain === 'videos' && activeTool === 'stabilize-video' && <VideoStabilizer />}
+            {activeDomain === 'videos' && activeTool === 'reduce-video-noise' && <VideoNoiseReducer />}
+            {activeDomain === 'videos' && activeTool === 'smooth-video-motion' && <VideoInterpolator />}
+            {activeDomain === 'videos' && activeTool === 'split-video-scenes' && <VideoSceneSplitter />}
+            {activeDomain === 'videos' && activeTool === 'deflicker-video' && <VideoDeflicker />}
+            {activeDomain === 'videos' && activeTool === 'auto-crop-video' && <VideoAutoCrop />}
+            {activeDomain === 'videos' && activeTool === 'crop-video' && <VideoCropper />}
+            {activeDomain === 'videos' && activeTool === 'create-karaoke-video' && <VideoKaraokeMaker />}
+            {activeDomain === 'videos' && activeTool === 'swap-face-in-video' && <VideoFaceSwapper />}
+            {activeDomain === 'videos' && activeTool === 'remove-subtitles-from-video' && <VideoSubtitleRemover />}
+            {activeDomain === 'videos' && activeTool === 'translate-video' && <MediaTranslator />}
+            {activeDomain === 'videos' && activeTool === 'enhance-video-speech' && <VideoSpeechEnhancer />}
 
-        {activeDomain === 'audio' && activeTool === 'convert-audio' && <AudioConverter />}
-        {activeDomain === 'audio' && activeTool === 'trim-audio' && <AudioTrimmer />}
-        {activeDomain === 'audio' && activeTool === 'merge-audio' && <AudioMerger />}
-        {activeDomain === 'audio' && activeTool === 'enhance-audio-speech' && <VideoSpeechEnhancer />}
+            {activeDomain === 'audio' && activeTool === 'convert-audio' && <AudioConverter />}
+            {activeDomain === 'audio' && activeTool === 'trim-audio' && <AudioTrimmer />}
+            {activeDomain === 'audio' && activeTool === 'merge-audio' && <AudioMerger />}
+            {activeDomain === 'audio' && activeTool === 'enhance-audio-speech' && <VideoSpeechEnhancer />}
 
-        {activeDomain === 'code' && activeTool === 'format-json' && <JsonFormatter />}
-        {activeDomain === 'code' && activeTool === 'base64-encode-decode' && <Base64Tool />}
-        {activeDomain === 'code' && activeTool === 'generate-hash' && <HashGenerator />}
-        {activeDomain === 'code' && activeTool === 'generate-uuid' && <UuidGenerator />}
-        {activeDomain === 'code' && activeTool === 'test-regex' && <RegexTester />}
-        {activeDomain === 'code' && activeTool === 'check-code-diff' && <DiffChecker />}
-        {activeDomain === 'code' && activeTool === 'minify-code' && <CodeMinifier />}
-        {activeDomain === 'code' && activeTool === 'prettify-code' && <CodePrettifier />}
-        {activeDomain === 'code' && activeTool === 'decode-jwt' && <JwtDecoder />}
-        {activeDomain === 'code' && activeTool === 'convert-timestamp' && <TimestampConverter />}
-        {activeDomain === 'code' && activeTool === 'encode-decode-url' && <UrlTool />}
-        {activeDomain === 'code' && activeTool === 'lint-code' && <CodeLinter />}
+            {activeDomain === 'code' && activeTool === 'format-json' && <JsonFormatter />}
+            {activeDomain === 'code' && activeTool === 'base64-encode-decode' && <Base64Tool />}
+            {activeDomain === 'code' && activeTool === 'generate-hash' && <HashGenerator />}
+            {activeDomain === 'code' && activeTool === 'generate-uuid' && <UuidGenerator />}
+            {activeDomain === 'code' && activeTool === 'test-regex' && <RegexTester />}
+            {activeDomain === 'code' && activeTool === 'check-code-diff' && <DiffChecker />}
+            {activeDomain === 'code' && activeTool === 'minify-code' && <CodeMinifier />}
+            {activeDomain === 'code' && activeTool === 'prettify-code' && <CodePrettifier />}
+            {activeDomain === 'code' && activeTool === 'decode-jwt' && <JwtDecoder />}
+            {activeDomain === 'code' && activeTool === 'convert-timestamp' && <TimestampConverter />}
+            {activeDomain === 'code' && activeTool === 'encode-decode-url' && <UrlTool />}
+            {activeDomain === 'code' && activeTool === 'lint-code' && <CodeLinter />}
 
-        {activeDomain === 'text' && activeTool === 'convert-subtitles' && <SubtitleConverter />}
+            {activeDomain === 'text' && activeTool === 'convert-subtitles' && <SubtitleConverter />}
 
-        {activeDomain === 'images' && activeTool === 'remove-image-watermark' && <ImageWatermarkRemover />}
-        {activeDomain === 'images' && activeTool === 'add-image-watermark' && <ImageWatermarkAdder />}
-        {activeDomain === 'images' && activeTool === 'crop-image' && <ImageCropper />}
-        {activeDomain === 'images' && activeTool === 'resize-image' && <ImageResizer />}
-        {activeDomain === 'images' && activeTool === 'compress-image' && <ImageCompressor />}
-        {activeDomain === 'images' && activeTool === 'convert-image' && <ImageConverter />}
-        {activeDomain === 'images' && activeTool === 'rotate-or-flip-image' && <ImageRotator />}
-        {activeDomain === 'images' && activeTool === 'edit-image-metadata' && <ImageMetadataEditor />}
-        {activeDomain === 'images' && activeTool === 'add-image-filters' && <ImageFilters />}
-        {activeDomain === 'images' && activeTool === 'convert-image-to-ascii' && <ImageAsciiArt />}
-        {activeDomain === 'images' && activeTool === 'extract-image-colors' && <ImageColorExtractor />}
-        {activeDomain === 'images' && activeTool === 'remove-image-background' && <ImageBackgroundRemover />}
-        {activeDomain === 'images' && activeTool === 'upscale-image' && <ImageUpscaler />}
-        {activeDomain === 'images' && activeTool === 'stylize-image' && <ImageStylizer />}
-        {activeDomain === 'images' && activeTool === 'generate-image-meme' && <ImageMemeGenerator />}
-        {activeDomain === 'images' && activeTool === 'beautify-screenshot' && <ImageScreenshotBeautifier />}
+            {activeDomain === 'images' && activeTool === 'remove-image-watermark' && <ImageWatermarkRemover />}
+            {activeDomain === 'images' && activeTool === 'add-image-watermark' && <ImageWatermarkAdder />}
+            {activeDomain === 'images' && activeTool === 'crop-image' && <ImageCropper />}
+            {activeDomain === 'images' && activeTool === 'resize-image' && <ImageResizer />}
+            {activeDomain === 'images' && activeTool === 'compress-image' && <ImageCompressor />}
+            {activeDomain === 'images' && activeTool === 'convert-image' && <ImageConverter />}
+            {activeDomain === 'images' && activeTool === 'rotate-or-flip-image' && <ImageRotator />}
+            {activeDomain === 'images' && activeTool === 'edit-image-metadata' && <ImageMetadataEditor />}
+            {activeDomain === 'images' && activeTool === 'add-image-filters' && <ImageFilters />}
+            {activeDomain === 'images' && activeTool === 'convert-image-to-ascii' && <ImageAsciiArt />}
+            {activeDomain === 'images' && activeTool === 'extract-image-colors' && <ImageColorExtractor />}
+            {activeDomain === 'images' && activeTool === 'remove-image-background' && <ImageBackgroundRemover />}
+            {activeDomain === 'images' && activeTool === 'upscale-image' && <ImageUpscaler />}
+            {activeDomain === 'images' && activeTool === 'stylize-image' && <ImageStylizer />}
+            {activeDomain === 'images' && activeTool === 'generate-image-meme' && <ImageMemeGenerator />}
+            {activeDomain === 'images' && activeTool === 'beautify-screenshot' && <ImageScreenshotBeautifier />}
+          </Suspense>
 
         </section>
 
@@ -784,9 +804,34 @@ function RouteHandler() {
   return <DedicatedToolPage />;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const scrollToStart = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    scrollToStart();
+
+    const frame = window.requestAnimationFrame(scrollToStart);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
+
+  return null;
+}
+
 function AppRouter() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <SeoHead />
       <Routes>
         <Route path="/" element={<Home />} />

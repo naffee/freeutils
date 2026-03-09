@@ -12,40 +12,40 @@ const siteName = 'freeutils';
 export const defaultMeta: RouteMeta = {
   title: `${siteName} | Free Online Media and Developer Tools`,
   description:
-    'Free online video, image, audio, code, and text utilities. Compress files, convert formats, edit media, and use developer tools in your browser.',
+    'Free online video, image, audio, code, and text utilities with no signup required. Compress files, convert formats, edit media, and use developer tools in your browser.',
 };
 
 export const homeMeta: RouteMeta = {
-  title: `${siteName} | AI-Powered Media and Developer Toolkit`,
+  title: `${siteName} | Free Online Media, Code, and Text Tools`,
   description:
-    'Use free online tools for video editing, image processing, audio conversion, subtitle work, and developer utilities directly in your browser.',
+    'Use free online tools for video editing, image processing, audio conversion, subtitle work, and developer tasks directly in your browser with no signup required.',
 };
 
 export const domainMeta: Record<Domain, RouteMeta> = {
   videos: {
     title: `Video Tools | ${siteName}`,
     description:
-      'Free online video tools to trim, compress, resize, convert, crop, subtitle, stabilize, and enhance videos in your browser.',
+      'Free online video tools with no signup required. Trim, compress, resize, convert, crop, subtitle, and edit videos in your browser.',
   },
   audio: {
     title: `Audio Tools | ${siteName}`,
     description:
-      'Free online audio tools to convert, trim, merge, and enhance audio files quickly without complex desktop software.',
+      'Free online audio tools with no signup required. Convert, trim, merge, and improve audio files quickly in your browser.',
   },
   code: {
     title: `Code Tools | ${siteName}`,
     description:
-      'Free developer utilities for formatting JSON, decoding JWTs, testing regex, generating hashes, minifying code, and more.',
+      'Free online developer utilities with no signup required for formatting JSON, decoding JWTs, testing regex, generating hashes, and more.',
   },
   text: {
     title: `Text Tools | ${siteName}`,
     description:
-      'Free text utilities for subtitle conversion and related text processing tasks with fast browser-based workflows.',
+      'Free online text utilities with no signup required for subtitle conversion and related browser-based text workflows.',
   },
   images: {
     title: `Image Tools | ${siteName}`,
     description:
-      'Free online image tools to crop, resize, compress, convert, remove backgrounds, extract colors, and enhance images.',
+      'Free online image tools with no signup required. Crop, resize, compress, convert, remove backgrounds, extract colors, and edit images in your browser.',
   },
 };
 
@@ -322,28 +322,43 @@ export const toolMetaByDomain: Record<Domain, ToolMetaMap> = {
   },
 };
 
+function withAccessQualifier(meta: RouteMeta): RouteMeta {
+  const qualifier = ' Free online, no signup required.';
+
+  if (meta.description.includes('no signup required')) {
+    return meta;
+  }
+
+  const trimmed = meta.description.trim().replace(/[.]+$/, '');
+
+  return {
+    ...meta,
+    description: `${trimmed}.${qualifier}`,
+  };
+}
+
 export function getRouteMeta(pathname: string): RouteMeta {
   if (pathname === '/') {
-    return homeMeta;
+    return withAccessQualifier(homeMeta);
   }
 
   const [appSegment, domain, tool] = pathname.split('/').filter(Boolean);
 
   if (appSegment !== 'app' || !domain) {
-    return defaultMeta;
+    return withAccessQualifier(defaultMeta);
   }
 
   if (domain in domainMeta) {
     const typedDomain = domain as Domain;
 
     if (tool && toolMetaByDomain[typedDomain][tool]) {
-      return toolMetaByDomain[typedDomain][tool];
+      return withAccessQualifier(toolMetaByDomain[typedDomain][tool]);
     }
 
-    return domainMeta[typedDomain];
+    return withAccessQualifier(domainMeta[typedDomain]);
   }
 
-  return defaultMeta;
+  return withAccessQualifier(defaultMeta);
 }
 
 export function getToolDisplayName(toolSlug: string): string {

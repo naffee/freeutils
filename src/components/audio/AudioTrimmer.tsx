@@ -233,7 +233,7 @@ export function AudioTrimmer() {
                         )}
 
                         {outputUrl && (
-                            <p style={{ textAlign: 'center', marginTop: '1rem', color: '#16a34a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                            <p className="tool-preview-caption" style={{ color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
                                 <Scissors size={16} /> Cut complete!
                             </p>
                         )}
@@ -278,7 +278,7 @@ export function AudioTrimmer() {
                                     href={outputUrl}
                                     download={`trimmed_${audioFile?.name}`}
                                     className="btn-primary"
-                                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', background: '#16a34a' }}
+                                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}
                                 >
                                     <Download size={16} /> Save Trimmed Track
                                 </a>
