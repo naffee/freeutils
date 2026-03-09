@@ -1,0 +1,18 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="32" fill="#F8FAFC"/>
+  <rect x="36" y="36" width="1128" height="558" rx="28" fill="#E0F2FE"/>
+  <circle cx="1030" cy="124" r="96" fill="#38BDF8" fill-opacity="0.14"/>
+  <circle cx="930" cy="510" r="140" fill="#7DD3FC" fill-opacity="0.18"/>
+  <circle cx="192" cy="138" r="124" fill="#BAE6FD" fill-opacity="0.22"/>
+  <rect x="112" y="164" width="132" height="132" rx="28" fill="#0F172A"/>
+  <path d="M154 207.5C154 202.806 159.235 199.955 163.218 202.524L211.444 233.627C215.084 235.974 215.084 241.276 211.444 243.623L163.218 274.726C159.235 277.295 154 274.444 154 269.75V207.5Z" fill="#F8FAFC"/>
+  <text x="112" y="380" fill="#0F172A" font-family="Segoe UI, Arial, sans-serif" font-size="74" font-weight="800">
+    freeutils
+  </text>
+  <text x="112" y="454" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="600">
+    Free online tools for video, audio, images, code, and text
+  </text>
+  <text x="112" y="510" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="500">
+    Trim videos, remove backgrounds, decode JWTs, convert subtitles, and more.
+  </text>
+</svg>

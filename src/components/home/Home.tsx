@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
 import { Film, Music, Image as ImageIcon, Code, Type, ArrowRight, Sparkles } from 'lucide-react';
 import './Home.css';
+import { BrandLogo } from '../shared/BrandLogo';
 
 export function Home() {
     return (
         <div className="home-container">
             {/* Navigation */}
             <nav className="home-navbar">
-                <Link to="/" className="home-logo">
-                    <Film size={28} color="#8b5cf6" />
-                    <span>freeutils</span>
-                </Link>
+                <BrandLogo className="home-logo" />
                 <Link to="/app" className="home-nav-launch">
                     Launch App
                 </Link>
@@ -41,7 +39,7 @@ export function Home() {
                 <div className="features-grid">
 
                     {/* Video Card */}
-                    <Link to="/app" state={{ domain: 'videos' }} className="feature-card video">
+                    <Link to="/app/videos" className="feature-card video">
                         <div className="feature-icon-wrapper">
                             <Film size={30} />
                         </div>
@@ -57,7 +55,7 @@ export function Home() {
                     </Link>
 
                     {/* Audio Card */}
-                    <Link to="/app" state={{ domain: 'audio' }} className="feature-card audio">
+                    <Link to="/app/audio" className="feature-card audio">
                         <div className="feature-icon-wrapper">
                             <Music size={30} />
                         </div>
@@ -71,7 +69,7 @@ export function Home() {
                     </Link>
 
                     {/* Image Card */}
-                    <Link to="/app" state={{ domain: 'images' }} className="feature-card image">
+                    <Link to="/app/images" className="feature-card image">
                         <div className="feature-icon-wrapper">
                             <ImageIcon size={30} />
                         </div>
@@ -86,7 +84,7 @@ export function Home() {
                     </Link>
 
                     {/* Code Card */}
-                    <Link to="/app" state={{ domain: 'code' }} className="feature-card code">
+                    <Link to="/app/code" className="feature-card code">
                         <div className="feature-icon-wrapper">
                             <Code size={30} />
                         </div>
@@ -101,7 +99,7 @@ export function Home() {
                     </Link>
 
                     {/* Text Card */}
-                    <Link to="/app" state={{ domain: 'text' }} className="feature-card text">
+                    <Link to="/app/text" className="feature-card text">
                         <div className="feature-icon-wrapper">
                             <Type size={30} />
                         </div>
@@ -117,7 +115,7 @@ export function Home() {
             </section>
 
             <footer className="home-footer">
-                <p>Built with <Sparkles size={16} color="#8b5cf6" fill="#8b5cf6" /> natively in the browser.</p>
+                <p>Built with <Sparkles size={16} color="#38bdf8" fill="#38bdf8" /> natively in the browser.</p>
                 <p style={{ marginTop: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>freeutils © {new Date().getFullYear()}</p>
             </footer>
         </div>

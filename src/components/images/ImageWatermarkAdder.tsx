@@ -236,10 +236,10 @@ export function ImageWatermarkAdder() {
     return (
         <div className="watermark-remover" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
+                <div className="tool-split-layout">
 
                     {/* Left Column: Interactive Image Preview */}
-                    <div style={{ flex: 1.5, display: 'flex', flexDirection: 'column', background: '#f8fafc', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+                    <div className="tool-preview-panel">
 
                         {!outputUrl ? (
                             <div
@@ -325,7 +325,7 @@ export function ImageWatermarkAdder() {
                     </div>
 
                     {/* Right Column: Controls */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div className="tool-side-column">
 
                         {!outputUrl ? (
                             <>
@@ -337,8 +337,8 @@ export function ImageWatermarkAdder() {
 
                                 {/* List of watermarks */}
                                 {watermarks.length > 0 && (
-                                    <div style={{ background: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                                        <div style={{ background: '#f8fafc', padding: '0.75rem 1rem', borderBottom: '1px solid #e2e8f0', fontWeight: 600, color: '#0f172a', fontSize: '0.9rem' }}>
+                                    <div className="tool-layer-list">
+                                        <div className="tool-layer-header">
                                             Active Layers ({watermarks.length})
                                         </div>
                                         <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
@@ -352,17 +352,17 @@ export function ImageWatermarkAdder() {
                                                         alignItems: 'center',
                                                         gap: '0.75rem',
                                                         borderBottom: '1px solid #f1f5f9',
-                                                        background: activeWmId === wm.id ? '#f5f3ff' : '#ffffff',
+                                                        background: activeWmId === wm.id ? '#eff6ff' : '#ffffff',
                                                         cursor: 'pointer',
                                                         transition: 'background 0.2s'
                                                     }}
                                                 >
                                                     <img src={wm.url} alt={`layer ${i}`} style={{ width: '32px', height: '32px', objectFit: 'contain', background: '#e2e8f0', borderRadius: '4px' }} />
-                                                    <div style={{ flex: 1, fontSize: '0.9rem', color: activeWmId === wm.id ? '#8b5cf6' : '#64748b', fontWeight: activeWmId === wm.id ? 600 : 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                    <div style={{ flex: 1, fontSize: '0.9rem', color: activeWmId === wm.id ? '#0284c7' : '#64748b', fontWeight: activeWmId === wm.id ? 600 : 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                         {wm.file.name}
                                                     </div>
                                                     <div style={{ display: 'flex', gap: '0.25rem' }}>
-                                                        <button onClick={(e) => { e.stopPropagation(); duplicateWatermark(wm); }} style={{ background: 'none', border: 'none', color: '#8b5cf6', padding: '4px', cursor: 'pointer', borderRadius: '4px' }} title="Duplicate layer">
+                                                        <button onClick={(e) => { e.stopPropagation(); duplicateWatermark(wm); }} style={{ background: 'none', border: 'none', color: '#0284c7', padding: '4px', cursor: 'pointer', borderRadius: '4px' }} title="Duplicate layer">
                                                             <Copy size={16} />
                                                         </button>
                                                         <button onClick={(e) => { e.stopPropagation(); removeWatermark(wm.id); }} style={{ background: 'none', border: 'none', color: '#ef4444', padding: '4px', cursor: 'pointer', borderRadius: '4px' }} title="Remove layer">
@@ -377,7 +377,7 @@ export function ImageWatermarkAdder() {
 
                                 {/* Controls for ACTIVE watermark */}
                                 {activeWm && (
-                                    <div style={{ background: '#f5f3ff', padding: '1rem', borderRadius: '12px', border: '1px solid #ddd6fe' }}>
+                                    <div className="tool-control-card">
 
                                         <div style={{ marginBottom: '1rem' }}>
                                             <label style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', fontWeight: 600, color: '#64748b', marginBottom: '0.25rem' }}>
@@ -391,7 +391,7 @@ export function ImageWatermarkAdder() {
                                                 step="10"
                                                 value={activeWm.scalePx}
                                                 onChange={(e) => updateActiveWm({ scalePx: parseInt(e.target.value) })}
-                                                style={{ width: '100%', accentColor: '#8b5cf6' }}
+                                                style={{ width: '100%', accentColor: '#38bdf8' }}
                                             />
                                             <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '0.2rem' }}>Relative to base image width of {mainImageDims.w}px</div>
                                         </div>
@@ -406,7 +406,7 @@ export function ImageWatermarkAdder() {
                                                 min="0.1" max="1" step="0.05"
                                                 value={activeWm.opacity}
                                                 onChange={(e) => updateActiveWm({ opacity: parseFloat(e.target.value) })}
-                                                style={{ width: '100%', accentColor: '#8b5cf6' }}
+                                                style={{ width: '100%', accentColor: '#38bdf8' }}
                                             />
                                         </div>
                                     </div>
@@ -423,7 +423,7 @@ export function ImageWatermarkAdder() {
                             </>
                         ) : (
                             <>
-                                <h3 style={{ margin: 0, color: '#8b5cf6', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <h3 style={{ margin: 0, color: '#0284c7', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                     <Layers size={24} /> Success!
                                 </h3>
 
@@ -431,7 +431,7 @@ export function ImageWatermarkAdder() {
                                     <><a href={outputUrl} download={`watermarked_${mainFile?.name}`} className="btn-primary" style={{ textDecoration: 'none', justifyContent: 'center' }}>
                                         <Download size={18} /> Download Image
                                     </a>
-                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                <div className="tool-danger-note">
                                    ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
                                 
                                 </div>

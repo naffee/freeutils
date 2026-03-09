@@ -163,11 +163,11 @@ export function AudioTrimmer() {
                 <p>Cut and trim your audio files with precision. Create custom ringtones or shorten song clips quickly and securely.</p>
             </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
+                <div className="tool-split-layout">
 
                     {/* Left Column: Audio Preview & Timeline */}
-                    <div style={{ flex: 1.5, display: 'flex', flexDirection: 'column', background: '#f8fafc', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: '400px' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #1e293b, #0f172a)', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', padding: '2rem', position: 'relative' }}>
+                    <div className="tool-preview-panel">
+                        <div className="tool-dark-stage">
                             <audio
                                 ref={audioRef}
                                 src={audioUrl}
@@ -196,9 +196,9 @@ export function AudioTrimmer() {
                                             left: `${(rangeStart / duration) * 100}%`,
                                             width: `${((rangeEnd - rangeStart) / duration) * 100}%`,
                                             height: '100%',
-                                            background: 'rgba(59, 130, 246, 0.4)',
-                                            borderLeft: '2px solid #3b82f6',
-                                            borderRight: '2px solid #3b82f6',
+                                            background: 'rgba(56, 189, 248, 0.35)',
+                                            borderLeft: '2px solid #38bdf8',
+                                            borderRight: '2px solid #38bdf8',
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center'
@@ -225,7 +225,7 @@ export function AudioTrimmer() {
                                 <button
                                     className="btn-primary"
                                     onClick={handlePlaySelection}
-                                    style={{ background: isPlayingSelection ? '#f43f5e' : '#3b82f6', minWidth: '180px' }}
+                                    style={{ minWidth: '180px' }}
                                 >
                                     {isPlayingSelection ? <><Pause size={16} /> Stop Preview</> : <><Play size={16} /> Preview Selection</>}
                                 </button>
@@ -240,39 +240,39 @@ export function AudioTrimmer() {
                     </div>
 
                     {/* Right Column: Information & Actions */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div className="tool-side-column">
 
-                        <div style={{ background: '#ffffff', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                            <h4 style={{ margin: '0 0 1.25rem 0', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div className="tool-info-card">
+                            <h4>
                                 <SettingsIcon size={18} /> Trim Controls
                             </h4>
 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                <div style={{ background: '#f1f5f9', padding: '1rem', borderRadius: '8px' }}>
-                                    <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.25rem' }}>START POSITION</div>
-                                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b' }}>{formatSeconds(rangeStart)}</div>
+                                <div className="tool-stat-block">
+                                    <div className="tool-stat-label">START POSITION</div>
+                                    <div className="tool-stat-value">{formatSeconds(rangeStart)}</div>
                                 </div>
 
-                                <div style={{ background: '#f1f5f9', padding: '1rem', borderRadius: '8px' }}>
-                                    <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '0.25rem' }}>END POSITION</div>
-                                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b' }}>{formatSeconds(rangeEnd)}</div>
+                                <div className="tool-stat-block">
+                                    <div className="tool-stat-label">END POSITION</div>
+                                    <div className="tool-stat-value">{formatSeconds(rangeEnd)}</div>
                                 </div>
 
                                 <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <span style={{ fontSize: '0.85rem', color: '#64748b' }}>Selection length:</span>
-                                    <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#3b82f6' }}>{formatSeconds(rangeEnd - rangeStart)}</span>
+                                    <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#0284c7' }}>{formatSeconds(rangeEnd - rangeStart)}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div style={{ background: '#eff6ff', padding: '1rem', borderRadius: '12px', border: '1px solid #bfdbfe' }}>
-                            <p style={{ margin: 0, fontSize: '0.8rem', color: '#1e40af', lineHeight: 1.5 }}>
+                        <div className="tool-accent-note">
+                            <p>
                                 <Clock size={12} style={{ verticalAlign: 'middle', marginRight: '4px' }} />
                                 Click and drag on the timeline to adjust start and end points. Use the <strong>Preview</strong> button to hear exactly what you've selected before cutting.
                             </p>
                         </div>
 
-                        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        <div className="tool-action-footer">
                             {outputUrl ? (
                                 <><a
                                     href={outputUrl}
@@ -282,7 +282,7 @@ export function AudioTrimmer() {
                                 >
                                     <Download size={16} /> Save Trimmed Track
                                 </a>
-                                <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
+                                <div className="tool-danger-note">
                                    ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
                                 </div></>
                             ) : (

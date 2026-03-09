@@ -69,12 +69,28 @@ export function VideoCompressor() {
             ) : (
                 <div className="processing-container">
                     {!isProcessing && !result ? (
-                        <div className="compression-details">
-                            <h3>Ready to Compress</h3>
-                            <p className="instruction">File: {videoFile.name}</p>
-                            <p className="instruction">Size: {(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+                        <div className="tool-stack">
+                            <div className="tool-topbar">
+                                <div className="tool-topbar-left">
+                                    <span className="tool-icon-badge">
+                                        <Server size={20} />
+                                    </span>
+                                    <h3>Ready to Compress</h3>
+                                </div>
+                            </div>
 
-                            <div className="actions" style={{ marginTop: '2rem' }}>
+                            <div className="tool-file-summary">
+                                <div className="tool-file-summary-row">
+                                    <span>File</span>
+                                    <strong>{videoFile.name}</strong>
+                                </div>
+                                <div className="tool-file-summary-row">
+                                    <span>Original size</span>
+                                    <strong>{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</strong>
+                                </div>
+                            </div>
+
+                            <div className="actions">
                                 <button className="btn-primary" onClick={handleUpload}>
                                     <Server size={18} /> Run on Server
                                 </button>
@@ -91,11 +107,15 @@ export function VideoCompressor() {
                     ) : result ? (
                         <div className="result-container">
                             <h3>Compression Complete</h3>
-                            <div className="stats" style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-                                <p>Original Size: {(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
-                                <p style={{ color: 'var(--accent-primary)', fontWeight: 'bold' }}>
-                                    New Size: {result.sizeMb} MB
-                                </p>
+                            <div className="tool-file-summary" style={{ width: '100%', maxWidth: '520px', marginBottom: '1rem' }}>
+                                <div className="tool-file-summary-row">
+                                    <span>Original size</span>
+                                    <strong>{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</strong>
+                                </div>
+                                <div className="tool-file-summary-row">
+                                    <span>Compressed size</span>
+                                    <strong className="tool-success-text">{result.sizeMb} MB</strong>
+                                </div>
                             </div>
                             <div className="actions">
                                 <a href={result.url} download={`compressed_${videoFile.name}`} className="btn-primary" style={{ textDecoration: 'none' }}>

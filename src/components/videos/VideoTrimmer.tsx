@@ -166,10 +166,10 @@ export function VideoTrimmer() {
                 <p>Cut and trim video files to remove unwanted parts. Keep only the best moments with our precise trimming tool.</p>
             </div>
             <div className="editor-container" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                <div style={{ display: 'flex', gap: '2rem', width: '100%', alignItems: 'stretch' }}>
+                <div className="tool-split-layout">
 
                     {/* Left Column: Video Preview */}
-                    <div style={{ flex: 1.5, display: 'flex', flexDirection: 'column', background: '#f8fafc', padding: '1.5rem', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+                    <div className="tool-preview-panel">
 
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
                             <div style={{ position: 'relative', display: 'inline-block', maxWidth: '100%', maxHeight: '500px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', background: '#000' }}>
@@ -189,7 +189,7 @@ export function VideoTrimmer() {
 
                         {/* Interactive Timeline Controls underneath video */}
                         {duration > 0 && !outputUrl && (
-                            <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                            <div className="tool-soft-panel" style={{ marginTop: '1.5rem' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 600, color: '#475569' }}>
                                     <span>{formatTime(startTime)}</span>
                                     <span>{formatTime(endTime)}</span>
@@ -205,7 +205,7 @@ export function VideoTrimmer() {
                                             step="0.01"
                                             value={startTime}
                                             onChange={(e) => handleTimeUpdate('start', parseFloat(e.target.value))}
-                                            style={{ width: '100%', accentColor: '#3b82f6' }}
+                                            style={{ width: '100%', accentColor: '#38bdf8' }}
                                         />
                                     </div>
                                     <div>
@@ -217,7 +217,7 @@ export function VideoTrimmer() {
                                             step="0.01"
                                             value={endTime}
                                             onChange={(e) => handleTimeUpdate('end', parseFloat(e.target.value))}
-                                            style={{ width: '100%', accentColor: '#ef4444' }}
+                                            style={{ width: '100%', accentColor: '#38bdf8' }}
                                         />
                                     </div>
                                 </div>
@@ -227,14 +227,14 @@ export function VideoTrimmer() {
                     </div>
 
                     {/* Right Column: Controls */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div className="tool-side-column">
 
-                        <div style={{ background: '#ffffff', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                            <h4 style={{ margin: 0, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div className="tool-info-card">
+                            <h4>
                                 Trim Setup
                             </h4>
 
-                            <div style={{ padding: '0.75rem', background: '#f8fafc', borderRadius: '8px', fontSize: '0.9rem', color: '#475569', lineHeight: 1.5 }}>
+                            <div className="tool-muted-note">
                                 Selecting <strong>Trim</strong> will perform a lightning-fast <code style={{ background: '#e2e8f0', padding: '2px 4px', borderRadius: '4px', fontSize: '0.8rem' }}>Stream Copy</code> without re-encoding your video. There is zero quality loss.
                             </div>
 

@@ -33,17 +33,17 @@ export function NextStepSuggestions({ fileUrl, fileName, fileType }: NextStepSug
                 <h4 style={{ margin: '0 0 1rem 0', color: '#0f172a', fontSize: '0.95rem' }}>Next Steps</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem' }}>
 
-                    <button onClick={() => handleSuggestionClick('/app/videos/trim')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
+                    <button onClick={() => handleSuggestionClick('/app/videos/trim-video')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
                         <Scissors size={20} color="#3b82f6" />
                         Trim Video
                     </button>
 
-                    <button onClick={() => handleSuggestionClick('/app/videos/compress')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
+                    <button onClick={() => handleSuggestionClick('/app/videos/compress-video')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
                         <RefreshCcw size={20} color="#10b981" />
                         Compress
                     </button>
 
-                    <button onClick={() => handleSuggestionClick('/app/videos/speed')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
+                    <button onClick={() => handleSuggestionClick('/app/videos/change-video-speed')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
                         <FastForward size={20} color="#8b5cf6" />
                         Change Speed
                     </button>
@@ -59,17 +59,17 @@ export function NextStepSuggestions({ fileUrl, fileName, fileType }: NextStepSug
                 <h4 style={{ margin: '0 0 1rem 0', color: '#0f172a', fontSize: '0.95rem' }}>Next Steps</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem' }}>
 
-                    <button onClick={() => handleSuggestionClick('/app/images/resize')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
+                    <button onClick={() => handleSuggestionClick('/app/images/resize-image')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
                         <Maximize size={20} color="#3b82f6" />
                         Resize Image
                     </button>
 
-                    <button onClick={() => handleSuggestionClick('/app/images/crop')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
+                    <button onClick={() => handleSuggestionClick('/app/images/crop-image')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
                         <Crop size={20} color="#10b981" />
                         Crop Image
                     </button>
 
-                    <button onClick={() => handleSuggestionClick('/app/images/compress')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
+                    <button onClick={() => handleSuggestionClick('/app/images/compress-image')} className="btn-secondary" style={{ padding: '0.5rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', height: 'auto' }}>
                         <FileImage size={20} color="#8b5cf6" />
                         Compress
                     </button>
