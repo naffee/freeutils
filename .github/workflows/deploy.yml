@@ -1,36 +1,29 @@
-name: Deploy VPS
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main # Change to 'master' if that is your primary branch
+      - main # Or your primary branch name
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
 
 jobs:
-  deploy:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
-
     steps:
-      # This action connects to your VPS over SSH and runs the update commands
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Install and Build 🔧
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22 # Default SSH port, change if your VPS uses a different one
-          script: |
-            # 1. Update this path to where your project lives on the VPS
-            cd /var/www/freeutils
-
-            # 2. Pull the newest code
-            git fetch origin
-            git reset --hard origin/main
-            git clean -fd
-
-            # ==========================================
-            # FRONTEND (React / Vite)
-            # ==========================================
-            # 3. Install frontend dependencies
-            npm install
-            # 4. Build the frontend for production
-            npm run build
+          folder: dist # Vite output directory
+          branch: gh-pages # The branch the action should deploy to
