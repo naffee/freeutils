@@ -1,0 +1,15 @@
+Validates that the URLs in a sitemap are correct
+
+Examples:
+  C:\Program Files\nodejs\node.exe C:\Users\Hp\AppData\Local\npm-cache\_npx\b76419b6ca305582\node_modules\sitemap-validator\bin\smv -l http://www.sitename.com/sitemap.xml -c 200    undefined
+
+
+Options:
+  -l, --location     The URL to the sitemap.xml file                 [required]
+  -c, --code         The successful http return code, typically 200  [required]
+  -r                 remap the sitemap URLs to another domain      
+  -s, --source       source domain for remapping                   
+  -d, --destination  destination for domain remapping              
+  -v                 Show version number                           
+
+Missing required arguments: l, c

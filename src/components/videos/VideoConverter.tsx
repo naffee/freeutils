@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
 import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { Download, Loader2, ArrowRightLeft, RotateCcw } from 'lucide-react';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/util';
 
 type OutputFormat = 'mp4' | 'webm' | 'gif' | 'avi';
 type QualityPreset = 'draft' | 'balanced' | 'high';
@@ -16,7 +18,34 @@ export function VideoConverter() {
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [progressMsg, setProgressMsg] = useState('');
     const [outputUrl, setOutputUrl] = useState<string | null>(null);
+
+    const ffmpegRef = useRef(new FFmpeg());
+
+    useEffect(() => {
+        const loadFFmpeg = async () => {
+            const ffmpeg = ffmpegRef.current;
+            if (!ffmpeg.loaded) {
+                ffmpeg.on('log', ({ message }) => {
+                    console.log(message);
+                });
+                ffmpeg.on('progress', ({ progress }) => {
+                    const percent = Math.min(Math.round(progress * 100), 100);
+                    setProgress(percent);
+                });
+                try {
+                    await ffmpeg.load({
+                        coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+                        wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
+                    });
+                } catch (e) {
+                    console.error("Failed to load ffmpeg:", e);
+                }
+            }
+        };
+        loadFFmpeg();
+    }, []);
 
     const handleFileSelect = (file: File) => {
         setVideoFile(file);
@@ -30,43 +59,96 @@ export function VideoConverter() {
         if (!videoFile) return;
 
         setIsProcessing(true);
-        setProgress(10); // Start progress to show activity
+        setProgress(0);
+        setProgressMsg('Initializing FFmpeg...');
         setOutputUrl(null);
 
-        const formData = new FormData();
-        formData.append('video', videoFile);
-        formData.append('format', targetFormat);
-        formData.append('quality', quality);
-
         try {
-            // Fake progress interval while waiting for backend
-            const progressInterval = setInterval(() => {
-                setProgress(prev => {
-                    if (prev >= 90) return 90;
-                    return prev + 5;
+            const ffmpeg = ffmpegRef.current;
+            if (!ffmpeg.loaded) {
+                setProgressMsg('Loading FFmpeg libraries...');
+                await ffmpeg.load({
+                    coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+                    wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
                 });
-            }, 500);
-
-            const response = await fetch('/api/convert-video', {
-                method: 'POST',
-                body: formData,
-            });
-
-            clearInterval(progressInterval);
-
-            if (!response.ok) {
-                const errResult = await response.json().catch(() => ({}));
-                throw new Error(errResult.error || 'Conversion failed on server');
             }
 
+            setProgressMsg('Writing file to memory...');
+            const extension = videoFile.name.split('.').pop() || 'mp4';
+            const inputName = `input_${Date.now()}.${extension}`;
+            const outputName = `converted_${Date.now()}.${targetFormat}`;
+
+            await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
+
+            setProgressMsg('Converting format (this may take a while)...');
+
+            const args = ['-i', inputName];
+
+            if (targetFormat === 'mp4') {
+                args.push('-c:v', 'libx264', '-threads', '0');
+                if (quality === 'draft') {
+                    args.push('-vf', 'scale=-2:480', '-crf', '28', '-preset', 'ultrafast');
+                } else if (quality === 'balanced') {
+                    args.push('-vf', 'scale=-2:720', '-crf', '23', '-preset', 'veryfast');
+                } else { // high
+                    args.push('-crf', '18', '-preset', 'medium');
+                }
+                args.push('-c:a', 'aac', '-b:a', '128k');
+
+            } else if (targetFormat === 'webm') {
+                args.push('-c:v', 'libvpx-vp9', '-threads', '8', '-row-mt', '1');
+                if (quality === 'draft') {
+                    args.push('-vf', 'scale=-2:480', '-crf', '40', '-b:v', '0', '-deadline', 'realtime');
+                } else if (quality === 'balanced') {
+                    args.push('-vf', 'scale=-2:720', '-crf', '30', '-b:v', '0', '-deadline', 'good');
+                } else { // high
+                    args.push('-crf', '20', '-b:v', '0', '-deadline', 'best');
+                }
+                args.push('-c:a', 'libopus', '-b:a', '96k');
+
+            } else if (targetFormat === 'gif') {
+                if (quality === 'draft') {
+                    args.push('-vf', 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
+                } else if (quality === 'balanced') {
+                    args.push('-vf', 'fps=15,scale=480:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
+                } else { // high
+                    args.push('-vf', 'fps=24,scale=720:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
+                }
+
+            } else if (targetFormat === 'avi') {
+                args.push('-c:v', 'mpeg4', '-threads', '0');
+                if (quality === 'draft') {
+                    args.push('-vf', 'scale=-2:480', '-qscale:v', '6');
+                } else if (quality === 'balanced') {
+                    args.push('-vf', 'scale=-2:720', '-qscale:v', '4');
+                } else { // high
+                    args.push('-qscale:v', '2');
+                }
+                args.push('-c:a', 'libmp3lame', '-b:a', '128k');
+            }
+
+            args.push(outputName);
+
+            await ffmpeg.exec(args);
+
             setProgress(100);
+            setProgressMsg('Reading converted file...');
 
-            // Read the binary response as a Blob
-            const blob = await response.blob();
+            const outputData = await ffmpeg.readFile(outputName);
+            const dataArray = new Uint8Array(outputData as any);
+            const mimeType = targetFormat === 'gif' ? 'image/gif' : targetFormat === 'webm' ? 'video/webm' : targetFormat === 'avi' ? 'video/x-msvideo' : 'video/mp4';
+            const blob = new Blob([dataArray], { type: mimeType });
 
-            // Generate a local object URL to display/download the result
             const url = URL.createObjectURL(blob);
             setOutputUrl(url);
+
+            // clean up
+            try {
+                await ffmpeg.deleteFile(inputName);
+                await ffmpeg.deleteFile(outputName);
+            } catch (cleanupErr) {
+                console.error("Cleanup error:", cleanupErr);
+            }
 
         } catch (error: any) {
             console.error("Conversion error:", error);
@@ -79,10 +161,10 @@ export function VideoConverter() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
-            <div className="seo-writeup">
-                <h2>Video Format Converter</h2>
-                <p>Convert video files from one format to another easily. Supports MP4, WebM, MOV, and more. Fast and secure.</p>
-            </div>
+                <div className="seo-writeup">
+                    <h2>Video Format Converter</h2>
+                    <p>Convert video files from one format to another easily. Supports MP4, WebM, MOV, and more. Fast and secure.</p>
+                </div>
                 <Dropzone onFileSelect={handleFileSelect} accept="video/*" title="Drop a video to Convert Format" />
             </div>
         );
@@ -196,7 +278,7 @@ export function VideoConverter() {
                         {isProcessing && (
                             <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '1rem', borderRadius: '8px' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#166534', fontWeight: 600 }}>
-                                    <span>Converting formatting (This may take a while)...</span>
+                                    <span>{progressMsg}</span>
                                     <span>{progress}%</span>
                                 </div>
                                 <div style={{ width: '100%', background: '#dcfce7', borderRadius: '4px', overflow: 'hidden', height: '6px' }}>
@@ -221,7 +303,7 @@ export function VideoConverter() {
                                     )}
                                 </div>
 
-                                <><a
+                                <a
                                     href={outputUrl}
                                     download={`converted_${videoFile?.name.replace(/\.[^/.]+$/, "")}.${targetFormat}`}
                                     style={{
@@ -241,20 +323,19 @@ export function VideoConverter() {
                                     <Download size={16} /> Download .{targetFormat.toUpperCase()}
                                 </a>
                                 <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
-                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
-                                
+                                    ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
                                 </div>
-                                <NextStepSuggestions 
-                                    fileUrl={outputUrl} 
-                                    fileName={videoFile?.name || 'processed_file'} 
-                                    fileType="video" 
-                                /></>
+                                <NextStepSuggestions
+                                    fileUrl={outputUrl}
+                                    fileName={videoFile?.name || 'processed_file'}
+                                    fileType={targetFormat === 'gif' ? 'image' : 'video'}
+                                />
                             </div>
                         )}
 
                         {/* Core Actions */}
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            <button className="btn-secondary" onClick={() => { setVideoUrl(null); setVideoFile(null); setOutputUrl(null); }} disabled={isProcessing} style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
+                            <button className="btn-secondary" onClick={() => { setVideoUrl(null); setVideoFile(null); setOutputUrl(null); setProgress(0); }} disabled={isProcessing} style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                 <RotateCcw size={16} /> Start Over
                             </button>
                             <button

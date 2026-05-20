@@ -1,54 +1,105 @@
-import { useState } from 'react';
-import { Download, Server } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Download, Film } from 'lucide-react';
 import { Dropzone } from '../shared/Dropzone.tsx';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/util';
 
 export function VideoCompressor() {
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [progressMsg, setProgressMsg] = useState('');
+    const [progress, setProgress] = useState(0);
     const [result, setResult] = useState<{ url: string; sizeMb: number } | null>(null);
+
+    const ffmpegRef = useRef(new FFmpeg());
+
+    useEffect(() => {
+        const loadFFmpeg = async () => {
+            const ffmpeg = ffmpegRef.current;
+            if (!ffmpeg.loaded) {
+                ffmpeg.on('log', ({ message }) => {
+                    console.log(message);
+                });
+                ffmpeg.on('progress', ({ progress }) => {
+                    const percent = Math.min(Math.round(progress * 100), 100);
+                    setProgress(percent);
+                });
+                try {
+                    await ffmpeg.load({
+                        coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+                        wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
+                    });
+                } catch (e) {
+                    console.error("Failed to load ffmpeg:", e);
+                }
+            }
+        };
+        loadFFmpeg();
+    }, []);
 
     const handleFileSelect = (file: File) => {
         setVideoFile(file);
         setResult(null);
+        setProgress(0);
     };
 
-    const handleUpload = async () => {
+    const handleCompress = async () => {
         if (!videoFile) return;
 
         setIsProcessing(true);
-        setProgressMsg('Uploading to server...');
-
-        const formData = new FormData();
-        formData.append('video', videoFile);
+        setProgress(0);
+        setProgressMsg('Initializing FFmpeg...');
 
         try {
-            // Because of Vite proxy, this goes to localhost:3001
-            setProgressMsg('Compressing on Server (this may take a moment)...');
-
-            const response = await fetch('/api/compress-video', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error || 'Upload failed');
+            const ffmpeg = ffmpegRef.current;
+            if (!ffmpeg.loaded) {
+                setProgressMsg('Loading FFmpeg libraries...');
+                await ffmpeg.load({
+                    coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+                    wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
+                });
             }
 
-            setProgressMsg('Downloading compressed file...');
+            setProgressMsg('Writing file to memory...');
+            const extension = videoFile.name.split('.').pop() || 'mp4';
+            const inputName = `input_${Date.now()}.${extension}`;
+            const outputName = `compressed_${Date.now()}.mp4`;
 
-            // The server responds with the actual file download stream
-            const blob = await response.blob();
+            await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
+
+            setProgressMsg('Compressing video (this may take a moment)...');
+
+            await ffmpeg.exec([
+                '-i', inputName,
+                '-vcodec', 'libx264',
+                '-crf', '28',
+                '-preset', 'veryfast',
+                '-acodec', 'aac',
+                '-b:a', '128k',
+                '-movflags', '+faststart',
+                outputName
+            ]);
+
+            setProgressMsg('Reading compressed video...');
+            const outputData = await ffmpeg.readFile(outputName);
+            const dataArray = new Uint8Array(outputData as any);
+            const blob = new Blob([dataArray], { type: 'video/mp4' });
+
             const url = URL.createObjectURL(blob);
-
-            // Assume an average compression size reduction for demonstration if not parsed via headers
             const approxSizeMb = blob.size / (1024 * 1024);
 
             setResult({
                 url,
                 sizeMb: Number(approxSizeMb.toFixed(2))
             });
+
+            // clean up
+            try {
+                await ffmpeg.deleteFile(inputName);
+                await ffmpeg.deleteFile(outputName);
+            } catch (cleanupErr) {
+                console.error("Cleanup error:", cleanupErr);
+            }
 
         } catch (e: any) {
             console.error(e);
@@ -73,7 +124,7 @@ export function VideoCompressor() {
                             <div className="tool-topbar">
                                 <div className="tool-topbar-left">
                                     <span className="tool-icon-badge">
-                                        <Server size={20} />
+                                        <Film size={20} />
                                     </span>
                                     <h3>Ready to Compress</h3>
                                 </div>
@@ -91,17 +142,17 @@ export function VideoCompressor() {
                             </div>
 
                             <div className="actions">
-                                <button className="btn-primary" onClick={handleUpload}>
-                                    <Server size={18} /> Run on Server
+                                <button className="btn-primary" onClick={handleCompress}>
+                                    <Film size={18} /> Compress Video
                                 </button>
                                 <button className="btn-secondary" onClick={() => setVideoFile(null)}>Cancel</button>
                             </div>
                         </div>
                     ) : isProcessing ? (
                         <div className="loading-state">
-                            <p>{progressMsg}</p>
+                            <p>{progressMsg} {progress > 0 ? `(${progress}%)` : ''}</p>
                             <div className="progress-bar">
-                                <div className="progress-fill" style={{ width: `100%`, animation: 'pulse 1.5s infinite' }} />
+                                <div className="progress-fill" style={{ width: `${progress || 100}%`, animation: progress === 0 ? 'pulse 1.5s infinite' : 'none' }} />
                             </div>
                         </div>
                     ) : result ? (

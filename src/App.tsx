@@ -1,14 +1,14 @@
 import { lazy, Suspense, useEffect, type ComponentType } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Home } from './components/home/Home.tsx';
-import { Film, Image as ImageIcon, Server, Scissors, Music as MusicIcon, Code as CodeIcon } from 'lucide-react';
+import { Film, Image as ImageIcon, Scissors, Music as MusicIcon, Code as CodeIcon } from 'lucide-react';
 import './index.css';
 import { SeoHead } from './seo/SeoHead';
 import { SeoContent } from './seo/SeoContent';
 import { NotFoundPage } from './components/shared/NotFoundPage';
 import { BrandLogo } from './components/shared/BrandLogo';
 import { domainLabels, getRouteMeta, getToolDisplayName, isDomain, toolMetaByDomain } from './seo/routeMeta';
-import { ArrowRightLeft, Maximize, Zap, Repeat, RefreshCw, Layers, Tag, Sliders, Palette, Eraser, Sparkles, Brush, Smile, LayoutTemplate, ImagePlus, FastForward, VolumeX, Music, FileImage, RotateCw, History, Merge, Stamp, Volume2, FileAudio, Wand2, Type as TypeIcon, Waves, MicOff, Zap as ZapIcon, ScissorsSquare, LightbulbOff, Crop, Mic2, Braces, Fingerprint, Search, Columns, Minimize2, ShieldCheck, Clock, Globe, Shield } from 'lucide-react';
+import { ArrowRightLeft, Maximize, Zap, Repeat, RefreshCw, Layers, Tag, Sliders, Palette, Eraser, Sparkles, Brush, Smile, LayoutTemplate, ImagePlus, FastForward, VolumeX, Music, FileImage, RotateCw, History, Merge, Stamp, Volume2, FileAudio, Wand2, Type as TypeIcon, ScissorsSquare, Crop, Braces, Fingerprint, Search, Columns, Minimize2, ShieldCheck, Clock, Globe, Shield } from 'lucide-react';
 
 type Domain = 'videos' | 'images' | 'audio' | 'code' | 'text';
 
@@ -30,23 +30,13 @@ const VideoToGif = lazyNamed(() => import('./components/videos/VideoToGif.tsx'),
 const VideoRotator = lazyNamed(() => import('./components/videos/VideoRotator.tsx'), 'VideoRotator');
 const VideoReverser = lazyNamed(() => import('./components/videos/VideoReverser.tsx'), 'VideoReverser');
 const VideoMerger = lazyNamed(() => import('./components/videos/VideoMerger.tsx'), 'VideoMerger');
+const VideoSplitScreen = lazyNamed(() => import('./components/videos/VideoSplitScreen.tsx'), 'VideoSplitScreen');
 const VideoWatermarkAdder = lazyNamed(() => import('./components/videos/VideoWatermarkAdder.tsx'), 'VideoWatermarkAdder');
 const VideoVolumeChanger = lazyNamed(() => import('./components/videos/VideoVolumeChanger.tsx'), 'VideoVolumeChanger');
 const AudioExtractor = lazyNamed(() => import('./components/videos/AudioExtractor.tsx'), 'AudioExtractor');
 const VideoFilterAdder = lazyNamed(() => import('./components/videos/VideoFilterAdder.tsx'), 'VideoFilterAdder');
 const VideoSubtitleBurner = lazyNamed(() => import('./components/videos/VideoSubtitleBurner.tsx'), 'VideoSubtitleBurner');
-const VideoStabilizer = lazyNamed(() => import('./components/videos/VideoStabilizer.tsx'), 'VideoStabilizer');
-const VideoNoiseReducer = lazyNamed(() => import('./components/videos/VideoNoiseReducer.tsx'), 'VideoNoiseReducer');
-const VideoInterpolator = lazyNamed(() => import('./components/videos/VideoInterpolator.tsx'), 'VideoInterpolator');
-const VideoSceneSplitter = lazyNamed(() => import('./components/videos/VideoSceneSplitter.tsx'), 'VideoSceneSplitter');
-const VideoDeflicker = lazyNamed(() => import('./components/videos/VideoDeflicker.tsx'), 'VideoDeflicker');
-const VideoAutoCrop = lazyNamed(() => import('./components/videos/VideoAutoCrop.tsx'), 'VideoAutoCrop');
 const VideoCropper = lazyNamed(() => import('./components/videos/VideoCropper.tsx'), 'VideoCropper');
-const VideoKaraokeMaker = lazyNamed(() => import('./components/videos/VideoKaraokeMaker.tsx'), 'VideoKaraokeMaker');
-const VideoFaceSwapper = lazyNamed(() => import('./components/videos/VideoFaceSwapper.tsx'), 'VideoFaceSwapper');
-const VideoSubtitleRemover = lazyNamed(() => import('./components/videos/VideoSubtitleRemover.tsx'), 'VideoSubtitleRemover');
-const MediaTranslator = lazyNamed(() => import('./components/videos/MediaTranslator.tsx'), 'MediaTranslator');
-const VideoSpeechEnhancer = lazyNamed(() => import('./components/videos/VideoSpeechEnhancer.tsx'), 'VideoSpeechEnhancer');
 const AudioConverter = lazyNamed(() => import('./components/audio/AudioConverter.tsx'), 'AudioConverter');
 const AudioTrimmer = lazyNamed(() => import('./components/audio/AudioTrimmer.tsx'), 'AudioTrimmer');
 const AudioMerger = lazyNamed(() => import('./components/audio/AudioMerger.tsx'), 'AudioMerger');
@@ -166,8 +156,8 @@ function ToolCatalog() {
               className={`catalog-card ${activeTool === 'compress-video' ? 'active' : ''}`}
               onClick={() => navigate('/app/videos/compress-video')}
             >
-              <div className="card-header"><Server size={16} /> <span>Server Compression</span></div>
-              <p className="card-desc">Reduce video file size significantly using advanced server-side algorithms.</p>
+              <div className="card-header"><Minimize2 size={16} /> <span>Compress Video</span></div>
+              <p className="card-desc">Reduce video file size online using efficient browser-based compression.</p>
             </button>
             <button
               className={`catalog-card ${activeTool === 'extract-video-thumbnail' ? 'active' : ''}`}
@@ -226,6 +216,13 @@ function ToolCatalog() {
               <p className="card-desc">Combine multiple video clips into a single continuous video effortlessly.</p>
             </button>
             <button
+              className={`catalog-card ${activeTool === 'create-split-screen-video' ? 'active' : ''}`}
+              onClick={() => navigate('/app/videos/create-split-screen-video')}
+            >
+              <div className="card-header"><Columns size={16} /> <span>Split Screen</span></div>
+              <p className="card-desc">Place two videos or images side by side or stacked into one split-screen export.</p>
+            </button>
+            <button
               className={`catalog-card ${activeTool === 'add-watermark-to-video' ? 'active' : ''}`}
               onClick={() => navigate('/app/videos/add-watermark-to-video')}
             >
@@ -261,88 +258,11 @@ function ToolCatalog() {
               <p className="card-desc">Hardcode or burn SRT and VTT subtitles directly into your video.</p>
             </button>
             <button
-              className={`catalog-card ${activeTool === 'stabilize-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/stabilize-video')}
-            >
-              <div className="card-header"><Waves size={16} /> <span>Stabilize</span></div>
-              <p className="card-desc">Fix shaky camera movements and smooth out unstable video footage.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'reduce-video-noise' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/reduce-video-noise')}
-            >
-              <div className="card-header"><MicOff size={16} /> <span>Noise Reduction</span></div>
-              <p className="card-desc">Clean up background noise and improve vocal clarity with a browser-based workflow.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'smooth-video-motion' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/smooth-video-motion')}
-            >
-              <div className="card-header"><ZapIcon size={16} /> <span>Smooth Motion</span></div>
-              <p className="card-desc">Interpolate frames to convert 30fps video into ultra-smooth 60fps.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'split-video-scenes' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/split-video-scenes')}
-            >
-              <div className="card-header"><ScissorsSquare size={16} /> <span>Auto Scene Split</span></div>
-              <p className="card-desc">Automatically detect scene changes and split your video into parts.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'deflicker-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/deflicker-video')}
-            >
-              <div className="card-header"><LightbulbOff size={16} /> <span>Antiflicker</span></div>
-              <p className="card-desc">Remove lighting flicker and strobe effects from your slow-motion footage.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'auto-crop-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/auto-crop-video')}
-            >
-              <div className="card-header"><Crop size={16} /> <span>Auto-Crop</span></div>
-              <p className="card-desc">Automatically keep the main subject in frame with smart cropping.</p>
-            </button>
-            <button
               className={`catalog-card ${activeTool === 'crop-video' ? 'active' : ''}`}
               onClick={() => navigate('/app/videos/crop-video')}
             >
               <div className="card-header"><Crop size={16} /> <span>Crop Video</span></div>
               <p className="card-desc">Manually select and crop a specific region of your video frame.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'create-karaoke-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/create-karaoke-video')}
-            >
-              <div className="card-header"><Mic2 size={16} /> <span>Karaoke Maker</span></div>
-              <p className="card-desc">Remove vocals from music videos to create custom karaoke tracks.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'swap-face-in-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/swap-face-in-video')}
-            >
-              <div className="card-header"><Sparkles size={16} /> <span>Face Swapper</span></div>
-              <p className="card-desc">Seamlessly swap faces in any video with a guided face-swap workflow.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'remove-subtitles-from-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/remove-subtitles-from-video')}
-            >
-              <div className="card-header"><Eraser size={16} /> <span>Remove Subtitles</span></div>
-              <p className="card-desc">Erase hardcoded subtitles and watermarks from your videos cleanly.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'translate-video' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/translate-video')}
-            >
-              <div className="card-header"><Globe size={16} /> <span>Translate Media</span></div>
-              <p className="card-desc">Transcribe, translate, and re-dub your videos in over 50 languages.</p>
-            </button>
-            <button
-              className={`catalog-card ${activeTool === 'enhance-video-speech' ? 'active' : ''}`}
-              onClick={() => navigate('/app/videos/enhance-video-speech')}
-            >
-              <div className="card-header"><Sparkles size={16} /> <span>Speech Enhancer</span></div>
-              <p className="card-desc">Restore poor audio quality and enhance voices to studio grade.</p>
             </button>
           </div >
         )
@@ -372,14 +292,7 @@ function ToolCatalog() {
                 <div className="card-header"><Layers size={16} /> <span>Merge Audio</span></div>
                 <p className="card-desc">Combine multiple audio tracks seamlessly into a single continuous file.</p>
               </button>
-              <button
-                className={`catalog-card ${activeTool === 'enhance-audio-speech' ? 'active' : ''}`}
-              onClick={() => navigate('/app/audio/enhance-audio-speech')}
-              >
-                <div className="card-header"><Sparkles size={16} /> <span>Restore Speech</span></div>
-                <p className="card-desc">Enhance voice clarity and remove background noise for professional audio quality.</p>
-              </button>
-            </div >
+            </div>
           )
         }
 
@@ -715,28 +628,17 @@ function DedicatedToolPage() {
             {activeDomain === 'videos' && activeTool === 'rotate-or-flip-video' && <VideoRotator />}
             {activeDomain === 'videos' && activeTool === 'reverse-video' && <VideoReverser />}
             {activeDomain === 'videos' && activeTool === 'merge-videos' && <VideoMerger />}
+            {activeDomain === 'videos' && activeTool === 'create-split-screen-video' && <VideoSplitScreen />}
             {activeDomain === 'videos' && activeTool === 'add-watermark-to-video' && <VideoWatermarkAdder />}
             {activeDomain === 'videos' && activeTool === 'change-video-volume' && <VideoVolumeChanger />}
             {activeDomain === 'videos' && activeTool === 'extract-audio-from-video' && <AudioExtractor />}
             {activeDomain === 'videos' && activeTool === 'add-filter-to-video' && <VideoFilterAdder />}
             {activeDomain === 'videos' && activeTool === 'add-subtitles-to-video' && <VideoSubtitleBurner />}
-            {activeDomain === 'videos' && activeTool === 'stabilize-video' && <VideoStabilizer />}
-            {activeDomain === 'videos' && activeTool === 'reduce-video-noise' && <VideoNoiseReducer />}
-            {activeDomain === 'videos' && activeTool === 'smooth-video-motion' && <VideoInterpolator />}
-            {activeDomain === 'videos' && activeTool === 'split-video-scenes' && <VideoSceneSplitter />}
-            {activeDomain === 'videos' && activeTool === 'deflicker-video' && <VideoDeflicker />}
-            {activeDomain === 'videos' && activeTool === 'auto-crop-video' && <VideoAutoCrop />}
             {activeDomain === 'videos' && activeTool === 'crop-video' && <VideoCropper />}
-            {activeDomain === 'videos' && activeTool === 'create-karaoke-video' && <VideoKaraokeMaker />}
-            {activeDomain === 'videos' && activeTool === 'swap-face-in-video' && <VideoFaceSwapper />}
-            {activeDomain === 'videos' && activeTool === 'remove-subtitles-from-video' && <VideoSubtitleRemover />}
-            {activeDomain === 'videos' && activeTool === 'translate-video' && <MediaTranslator />}
-            {activeDomain === 'videos' && activeTool === 'enhance-video-speech' && <VideoSpeechEnhancer />}
 
             {activeDomain === 'audio' && activeTool === 'convert-audio' && <AudioConverter />}
             {activeDomain === 'audio' && activeTool === 'trim-audio' && <AudioTrimmer />}
             {activeDomain === 'audio' && activeTool === 'merge-audio' && <AudioMerger />}
-            {activeDomain === 'audio' && activeTool === 'enhance-audio-speech' && <VideoSpeechEnhancer />}
 
             {activeDomain === 'code' && activeTool === 'format-json' && <JsonFormatter />}
             {activeDomain === 'code' && activeTool === 'base64-encode-decode' && <Base64Tool />}

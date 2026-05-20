@@ -111,6 +111,10 @@ export const toolMetaByDomain: Record<Domain, ToolMetaMap> = {
       title: `Merge Videos | ${siteName}`,
       description: 'Combine multiple video clips into one file online with a simple merge tool.',
     },
+    'create-split-screen-video': {
+      title: `Create Split Screen Video | ${siteName}`,
+      description: 'Create split-screen videos online by placing two videos or images side by side or stacked vertically.',
+    },
     'add-watermark-to-video': {
       title: `Add Watermark To Video | ${siteName}`,
       description: 'Add text or image watermarks to videos online to protect your content and branding.',
@@ -131,53 +135,9 @@ export const toolMetaByDomain: Record<Domain, ToolMetaMap> = {
       title: `Add Subtitles To Video | ${siteName}`,
       description: 'Burn subtitles into video files online using subtitle files such as SRT and VTT.',
     },
-    'stabilize-video': {
-      title: `Stabilize Video | ${siteName}`,
-      description: 'Reduce camera shake and smooth footage online with a video stabilization tool.',
-    },
-    'reduce-video-noise': {
-      title: `Reduce Video Noise | ${siteName}`,
-      description: 'Clean up noisy video audio and improve clarity online.',
-    },
-    'smooth-video-motion': {
-      title: `Smooth Video Motion | ${siteName}`,
-      description: 'Create smoother motion by interpolating video frames online.',
-    },
-    'split-video-scenes': {
-      title: `Split Video Scenes | ${siteName}`,
-      description: 'Detect scene changes and split videos into separate segments online.',
-    },
-    'deflicker-video': {
-      title: `Deflicker Video | ${siteName}`,
-      description: 'Reduce flicker in video footage online for cleaner and more consistent visuals.',
-    },
-    'auto-crop-video': {
-      title: `Auto Crop Video | ${siteName}`,
-      description: 'Automatically crop videos to keep the main subject centered online.',
-    },
     'crop-video': {
       title: `Crop Video | ${siteName}`,
       description: 'Crop video frames online to focus on the exact area you want.',
-    },
-    'create-karaoke-video': {
-      title: `Create Karaoke Video | ${siteName}`,
-      description: 'Create karaoke-style videos online by isolating instrumentals and preparing sing-along media.',
-    },
-    'swap-face-in-video': {
-      title: `Swap Face In Video | ${siteName}`,
-      description: 'Swap faces in videos online with an AI-powered face swap workflow.',
-    },
-    'remove-subtitles-from-video': {
-      title: `Remove Subtitles From Video | ${siteName}`,
-      description: 'Remove hardcoded subtitles from video online to clean up your footage.',
-    },
-    'translate-video': {
-      title: `Translate Video | ${siteName}`,
-      description: 'Translate, transcribe, and rework video audio online for multilingual content.',
-    },
-    'enhance-video-speech': {
-      title: `Enhance Video Speech | ${siteName}`,
-      description: 'Improve voice clarity in videos online for cleaner speech and better listening.',
     },
   },
   audio: {
@@ -192,10 +152,6 @@ export const toolMetaByDomain: Record<Domain, ToolMetaMap> = {
     'merge-audio': {
       title: `Merge Audio | ${siteName}`,
       description: 'Combine multiple audio clips into one track online.',
-    },
-    'enhance-audio-speech': {
-      title: `Enhance Audio Speech | ${siteName}`,
-      description: 'Improve speech quality in audio files online for clearer listening.',
     },
   },
   code: {

@@ -82,6 +82,7 @@ export function VideoMerger() {
         // Always standardizing around MP4 for safest browser playback when re-encoding
         const outputExt = 'mp4';
         const outputName = `merged_output.${outputExt}`;
+        const filesToCleanup: string[] = [];
 
         try {
             // Write all files to FFmpeg FS and build command arrays
@@ -90,9 +91,45 @@ export function VideoMerger() {
             let concatStr = '';
 
             for (let i = 0; i < videoFiles.length; i++) {
-                const safeName = `input_${i}.${videoFiles[i].file.name.split('.').pop()}`;
+                const extension = videoFiles[i].file.name.split('.').pop() || 'mp4';
+                const safeName = `input_${i}.${extension}`;
                 await ffmpeg.writeFile(safeName, await fetchFile(videoFiles[i].file));
-                inputs.push('-i', safeName);
+                filesToCleanup.push(safeName);
+
+                // Check if this input has audio by listening to FFmpeg log output during a quick probe
+                let hasAudio = false;
+                const logHandler = ({ message }: { message: string }) => {
+                    if (message.toLowerCase().includes('audio:')) {
+                        hasAudio = true;
+                    }
+                };
+                ffmpeg.on('log', logHandler);
+                try {
+                    // Running a basic info command will print stream info to logs
+                    await ffmpeg.exec(['-i', safeName]);
+                } catch (e) {
+                    // ffmpeg -i always exits with an error because no output is specified, which is expected
+                } finally {
+                    ffmpeg.off('log', logHandler);
+                }
+
+                let inputToUse = safeName;
+                if (!hasAudio) {
+                    const silentName = `silent_${i}.${extension}`;
+                    // Add silent audio track matching video duration
+                    await ffmpeg.exec([
+                        '-i', safeName,
+                        '-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100',
+                        '-c:v', 'copy',
+                        '-c:a', 'aac',
+                        '-shortest',
+                        silentName
+                    ]);
+                    inputToUse = silentName;
+                    filesToCleanup.push(silentName);
+                }
+
+                inputs.push('-i', inputToUse);
 
                 // Parse chosen resolution
                 const [w, h] = resolution.split('x');
@@ -132,15 +169,17 @@ export function VideoMerger() {
 
         } catch (error) {
             console.error("Merge failed:", error);
-            alert("Failed to merge videos. Make sure all files contain an audio track (the universal engine requires it) and watch the memory limits.");
+            alert("Failed to merge videos. Please check that none of the files are corrupted and watch the memory limits.");
         } finally {
             setIsProcessing(false);
             try {
                 await ffmpeg.deleteFile(outputName);
-                for (let i = 0; i < videoFiles.length; i++) {
-                    await ffmpeg.deleteFile(`input_${i}.${videoFiles[i].file.name.split('.').pop()}`);
-                }
             } catch (e) { }
+            for (const file of filesToCleanup) {
+                try {
+                    await ffmpeg.deleteFile(file);
+                } catch (e) { }
+            }
         }
     };
 
@@ -268,8 +307,8 @@ export function VideoMerger() {
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
                                 <>
-<a
-    href={outputUrl}
+                                <a
+                                    href={outputUrl}
                                     download={`merged_video_${Date.now()}.mp4`}
                                     className="btn-primary"
                                     style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}
@@ -284,8 +323,8 @@ export function VideoMerger() {
                                     fileUrl={outputUrl || ''} 
                                     fileName={'processed_file'} 
                                     fileType="video"
-/>
-</>
+                                />
+                                </>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing || videoFiles.length < 2} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                     {isProcessing ? <><Loader2 size={16} className="spin" /> Linking ({progress}%)...</> : <><Merge size={16} /> Merge Videos</>}

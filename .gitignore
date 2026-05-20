@@ -12,9 +12,6 @@ dist
 dist-ssr
 *.local
 
-# models
-backend/python/models/*.onnx
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

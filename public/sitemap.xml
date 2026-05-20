@@ -2,415 +2,349 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://freeutils.xyz/</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/audio</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/audio/convert-audio</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/audio/enhance-audio-speech</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/audio/merge-audio</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/audio/trim-audio</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/base64-encode-decode</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/check-code-diff</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/convert-timestamp</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/decode-jwt</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/encode-decode-url</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/format-json</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/generate-hash</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/generate-uuid</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/lint-code</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/minify-code</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/prettify-code</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/code/test-regex</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/add-image-filters</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/add-image-watermark</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/beautify-screenshot</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/compress-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/convert-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/convert-image-to-ascii</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/crop-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/edit-image-metadata</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/extract-image-colors</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/generate-image-meme</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/remove-image-background</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/remove-image-watermark</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/resize-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/rotate-or-flip-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/stylize-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/images/upscale-image</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/text</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/text/convert-subtitles</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/add-audio-to-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/add-filter-to-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/add-subtitles-to-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/add-watermark-to-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/auto-crop-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/change-video-speed</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/change-video-volume</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/compress-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/convert-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/convert-video-to-gif</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://freeutils.xyz/app/videos/create-karaoke-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <loc>https://freeutils.xyz/app/videos/create-split-screen-video</loc>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/crop-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/deflicker-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/enhance-video-speech</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/extract-audio-from-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/extract-frames-from-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/extract-video-thumbnail</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/merge-videos</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/mute-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/reduce-video-noise</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/remove-subtitles-from-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/resize-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/reverse-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/rotate-or-flip-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/smooth-video-motion</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/split-video-scenes</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/stabilize-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/swap-face-in-video</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://freeutils.xyz/app/videos/translate-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://freeutils.xyz/app/videos/trim-video</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

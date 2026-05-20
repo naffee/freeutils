@@ -1,7 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Dropzone } from '../shared/Dropzone.tsx';
 import { NextStepSuggestions } from '../shared/NextStepSuggestions.tsx';
 import { FileText, Loader2, Download, RotateCcw, MonitorPlay } from 'lucide-react';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/util';
 
 export function VideoSubtitleBurner() {
     const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -11,14 +13,42 @@ export function VideoSubtitleBurner() {
     const [srtContent, setSrtContent] = useState<string | null>(null);
 
     const [isProcessing, setIsProcessing] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [progressMsg, setProgressMsg] = useState('');
     const [outputUrl, setOutputUrl] = useState<string | null>(null);
 
     const srtInputRef = useRef<HTMLInputElement>(null);
+    const ffmpegRef = useRef(new FFmpeg());
+
+    useEffect(() => {
+        const loadFFmpeg = async () => {
+            const ffmpeg = ffmpegRef.current;
+            if (!ffmpeg.loaded) {
+                ffmpeg.on('log', ({ message }) => {
+                    console.log(message);
+                });
+                ffmpeg.on('progress', ({ progress }) => {
+                    const percent = Math.min(Math.round(progress * 100), 100);
+                    setProgress(percent);
+                });
+                try {
+                    await ffmpeg.load({
+                        coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+                        wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
+                    });
+                } catch (e) {
+                    console.error("Failed to load ffmpeg:", e);
+                }
+            }
+        };
+        loadFFmpeg();
+    }, []);
 
     const handleVideoSelect = (file: File) => {
         setVideoFile(file);
         setVideoUrl(URL.createObjectURL(file));
         setOutputUrl(null);
+        setProgress(0);
     };
 
     const handleSrtSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,28 +79,67 @@ export function VideoSubtitleBurner() {
         if (!videoFile || !srtFile) return;
 
         setIsProcessing(true);
+        setProgress(0);
+        setProgressMsg('Initializing FFmpeg...');
         setOutputUrl(null);
 
-        const formData = new FormData();
-        formData.append('video', videoFile);
-        formData.append('srt', srtFile);
-
         try {
-            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-            const response = await fetch(`${API_URL}/api/burn-subtitles`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || 'Server processing failed');
+            const ffmpeg = ffmpegRef.current;
+            if (!ffmpeg.loaded) {
+                setProgressMsg('Loading FFmpeg libraries...');
+                await ffmpeg.load({
+                    coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
+                    wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
+                });
             }
 
-            // The backend returns the file directly
-            const blob = await response.blob();
+            // Subtitles require fonts to be rendered by libass inside WebAssembly.
+            // We fetch a standard Roboto .ttf font and write it to the virtual root as Arial.ttf (libass fallback font name).
+            setProgressMsg('Downloading subtitle fonts...');
+            const fontUrl = 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.ttf';
+            const fontResponse = await fetch(fontUrl);
+            const fontBlob = await fontResponse.blob();
+
+            setProgressMsg('Writing files to memory...');
+            const extension = videoFile.name.split('.').pop() || 'mp4';
+            const inputName = `input_${Date.now()}.${extension}`;
+            const srtName = 'subtitles.srt';
+            const outputName = `subtitled_${Date.now()}.${extension}`;
+
+            await ffmpeg.writeFile('Arial.ttf', await fetchFile(fontBlob));
+            await ffmpeg.writeFile(srtName, await fetchFile(srtFile));
+            await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
+
+            setProgressMsg('Burning subtitles into video (this may take some time)...');
+
+            // ffmpeg -y -i input_video -vf subtitles=subtitles.srt:fontsdir=/ -c:a copy -c:v libx264 -preset fast -crf 28 output_path
+            await ffmpeg.exec([
+                '-i', inputName,
+                '-vf', `subtitles=${srtName}:fontsdir=/`,
+                '-c:a', 'copy',
+                '-c:v', 'libx264',
+                '-preset', 'fast',
+                '-crf', '28',
+                outputName
+            ]);
+
+            setProgressMsg('Reading final video...');
+            const outputData = await ffmpeg.readFile(outputName);
+            const dataArray = new Uint8Array(outputData as any);
+            const blob = new Blob([dataArray], { type: videoFile.type || 'video/mp4' });
+
             const url = URL.createObjectURL(blob);
             setOutputUrl(url);
+
+            // clean up
+            try {
+                await ffmpeg.deleteFile('Arial.ttf');
+                await ffmpeg.deleteFile(srtName);
+                await ffmpeg.deleteFile(inputName);
+                await ffmpeg.deleteFile(outputName);
+            } catch (cleanupErr) {
+                console.error("Cleanup error:", cleanupErr);
+            }
 
         } catch (error: any) {
             console.error("Subtitle burn failed:", error);
@@ -83,10 +152,10 @@ export function VideoSubtitleBurner() {
     if (!videoUrl) {
         return (
             <div className="watermark-remover">
-            <div className="seo-writeup">
-                <h2>Add Subtitles to Video</h2>
-                <p>Hardcode subtitles directly into your video. Ensure your message is understood, even when the sound is off.</p>
-            </div>
+                <div className="seo-writeup">
+                    <h2>Add Subtitles to Video</h2>
+                    <p>Hardcode subtitles directly into your video. Ensure your message is understood, even when the sound is off.</p>
+                </div>
                 <Dropzone onFileSelect={handleVideoSelect} accept="video/*" title="Drop a Video to hardcode subtitles" />
             </div>
         );
@@ -179,6 +248,19 @@ export function VideoSubtitleBurner() {
                             </p>
                         </div>
 
+                        {/* Progress Bar */}
+                        {isProcessing && (
+                            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '1rem', borderRadius: '8px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#166534', fontWeight: 600 }}>
+                                    <span>{progressMsg}</span>
+                                    <span>{progress}%</span>
+                                </div>
+                                <div style={{ width: '100%', background: '#dcfce7', borderRadius: '4px', overflow: 'hidden', height: '6px' }}>
+                                    <div style={{ width: `${progress}%`, background: '#22c55e', height: '100%', transition: 'width 0.1s' }} />
+                                </div>
+                            </div>
+                        )}
+
                         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                             {outputUrl ? (
                                 <><a
@@ -190,20 +272,19 @@ export function VideoSubtitleBurner() {
                                     <Download size={16} /> Save Burned Video
                                 </a>
                                 <div style={{ fontSize: '0.8rem', color: '#b91c1c', textAlign: 'center', marginTop: '0.5rem', background: '#fef2f2', padding: '0.5rem', borderRadius: '4px', border: '1px solid #fecaca', lineHeight: 1.4 }}>
-                                   ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
-                                
+                                    ⚠️ <strong>Warning:</strong> Files are not saved on our servers. Please download your work now or it will be lost forever.
                                 </div>
-                                <NextStepSuggestions 
-                                    fileUrl={outputUrl} 
-                                    fileName={videoFile?.name || 'processed_file'} 
-                                    fileType="video" 
+                                <NextStepSuggestions
+                                    fileUrl={outputUrl}
+                                    fileName={videoFile?.name || 'processed_file'}
+                                    fileType="video"
                                 /></>
                             ) : (
                                 <button className="btn-primary" onClick={handleProcess} disabled={isProcessing || !srtFile} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
-                                    {isProcessing ? <><Loader2 size={16} className="spin" /> Sending to Server...</> : <><MonitorPlay size={16} /> Hardcode Subtitles</>}
+                                    {isProcessing ? <><Loader2 size={16} className="spin" /> Processing...</> : <><MonitorPlay size={16} /> Hardcode Subtitles</>}
                                 </button>
                             )}
-                            <button className="btn-secondary" onClick={() => { setVideoUrl(null); setVideoFile(null); setOutputUrl(null); setSrtFile(null); }} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
+                            <button className="btn-secondary" onClick={() => { setVideoUrl(null); setVideoFile(null); setOutputUrl(null); setSrtFile(null); setProgress(0); }} disabled={isProcessing} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
                                 <RotateCcw size={16} /> Start Over
                             </button>
                         </div>

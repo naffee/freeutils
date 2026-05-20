@@ -32,23 +32,5 @@ jobs:
             # ==========================================
             # 3. Install frontend dependencies
             npm install
-            
-            # Fetch Ezoic Ads.txt
-            curl -L https://srv.adstxtmanager.com/19390/freeutils.xyz > public/ads.txt
-            
             # 4. Build the frontend for production
             npm run build
-            
-            # ==========================================
-            # BACKEND (Express / Node.js)
-            # ==========================================
-            cd backend
-            
-            # 5. Install backend dependencies
-            npm install
-            
-            # 6. Restart the backend process using PM2
-            # Note: PM2 is highly recommended to keep Node.js apps alive on a VPS.
-            # If you haven't started it yet, it will fall back to starting it for the first time.
-            # (To install PM2 on your VPS if you haven't: npm install -g pm2)
-            pm2 restart videoframe-backend || pm2 start server.js --name "videoframe-backend"
